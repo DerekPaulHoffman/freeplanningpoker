@@ -1,0 +1,71 @@
+/* Set variables */
+
+/* FONTS */
+$standard-font: 'Lato', Arial, sans-serif;
+$arial-font: Arial, sans-serif;
+$arial-black-font: Arial Black, Arial, sans-serif;
+$montserrat: 'Open Sans', sans-serif;
+
+/* COLORS */
+$link-blue: #0000EE;
+$blue: #003165;
+$lt-blue: #0532A8;
+$baby-blue: #EFF9FF;
+$fandango-blue: #037BC0;
+$fbm-blue: #00699D;
+$fbm-accent-blue: #D1EFFB;
+$fbm-accent-green: #9EBE40;
+$fbm-accent-dark-green: #659527;
+$yellow: #FC3;
+$red: #CC0000;
+$submit: #F30;
+$lt-grey: #F3F3F3;
+$vlt-grey: #ececec;
+$grey: #DCD9D9;
+$dark-grey: #BBB;
+$darker-grey: #888;
+$charcoal: #666;
+$warm-grey: #ccc;
+
+/* Set custom breakpoints for responsive design */
+$iphone6: 375px;
+$large-phones: 425px;
+$phone-max: 599px;
+$tablet-min: 600px;
+$desktop-min: 900px;
+$lg-desktop: 1200px;
+
+@mixin for-medium-phones {
+	@media only screen and (min-width: $iphone6) {
+		@content;
+	}
+}
+
+@mixin for-large-phones {
+	@media only screen and (min-width: $large-phones) {
+		@content;
+	}
+}
+
+@mixin for-phone-only {
+	@media only screen and (max-width: $phone-max) {
+		@content;
+	}
+}
+@mixin for-tablets {
+	@media only screen and (min-width: $tablet-min) {
+		@content;
+	}
+}
+
+@mixin for-desktop {
+	@media only  screen and (min-width: $desktop-min) {
+		@content;
+	}
+}
+
+@mixin for-large-desktop {
+	@media only screen and (min-width: $lg-desktop) {
+		@content;
+	}
+}
