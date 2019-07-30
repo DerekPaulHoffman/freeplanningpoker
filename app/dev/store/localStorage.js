@@ -1,7 +1,7 @@
 export const loadState = () => {
 	try {
 		// ! Update the value in localStorage.getItem('') to be application specific. Value 'state' will break if a user goes to this template and Bizrate.
-		const serializedState = localStorage.getItem('tm-state');
+		const serializedState = localStorage.getItem('poker-state');
 		if (serializedState === null) {
 			return undefined;
 		}
@@ -15,7 +15,7 @@ export const saveState = (state) => {
 	try {
 		const serializedState = JSON.stringify(state);
 		// ! Update the value in localStorage.setItem('') to be application specific. Value 'state' will break if a user goes to this template and Bizrate.
-		localStorage.setItem('tm-state', serializedState);
+		localStorage.setItem('poker-state', serializedState);
 	} catch (error) {
 		// Ignore errors for now
 	}
