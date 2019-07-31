@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import withGracefulUnmount from 'react-graceful-unmount';
 import configureStore from 'Store/configureStore';
 
 // Actions
 import * as sessionActions from 'Actions/session';
+
+import { subscribeToTimer } from 'Utilities/api.js';
 
 // Templates
 import Index from 'Templates/Index/Index.jsx';
@@ -22,9 +24,9 @@ const store = configureStore();
 function Root() {
 	return (
 		<Provider store={store}>
-			<HashRouter>
+			<BrowserRouter>
 				<AppRouter />
-			</HashRouter>
+			</BrowserRouter>
 		</Provider>
 	);
 }
@@ -33,8 +35,12 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
+
+		subscribeToTimer((err, timestamp) => this.setState({ 
+			timestamp 
+		}));
 		this.state = {
-			val: false,
+			timestamp: 'no timestamp yet',
 		};
 	}
 	componentDidMount() {
@@ -46,9 +52,11 @@ class App extends Component {
 	render() {
 		return (
 			<div className="site-wrapper">
-				<Switch>
-					<Route exact-path="/" component={Index} />
-				</Switch>
+				<div className="App">
+					<p className="App-intro">
+						This is the timer value: {this.state.timestamp}
+					</p>
+				</div>
 			</div>
 		);
 	}

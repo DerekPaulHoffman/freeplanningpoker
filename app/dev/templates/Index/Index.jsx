@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import AddressForm from 'Components/AddressForm/AddressForm.jsx';
-import CreditCard from 'Components/CreditCard/CreditCard.jsx';
-
 import './Index.scss';
 
 class Index extends Component {
@@ -22,13 +19,6 @@ class Index extends Component {
                     <h1>Index</h1>
 				}
 				<div className="row">
-					<div className="col-xs-12 col-sm-6">
-						<AddressForm />
-					</div>
-					<div className="col-xs-12 col-sm-6">
-						<CreditCard />
-					</div>
-
 
 				</div>
 			</div>

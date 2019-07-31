@@ -25,6 +25,8 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "scriptjs": "^2.5.8",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "webpack": "^4.29.6",
     "webpack-browser-plugin": "^1.0.20",
     "webpack-merge": "^4.2.1",
