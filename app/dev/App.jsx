@@ -13,6 +13,7 @@ import * as sessionActions from 'Actions/session';
 import { subscribeToTimer } from 'Utilities/api.js';
 
 // Templates
+import Index from 'Templates/Index/Index.jsx';
 
 import './styles/Common.scss';
 
@@ -21,12 +22,15 @@ import packageJson from '../../package.json';
 //Sockets
 import * as Sockets from 'Utilities/api.js';
 
+const store = configureStore();
 
 function Root() {
 	return (
-		<BrowserRouter>
-			<AppRouter />
-		</BrowserRouter>
+		<Provider store={store}>
+			<BrowserRouter>
+				<AppRouter />
+			</BrowserRouter>
+		</Provider>
 	);
 }
 
@@ -49,15 +53,14 @@ class App extends Component {
 
 		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
 			timestamp 
-		  }));
+		}));
 
-		  
-		  Sockets.readMessage((message) =>{ 
-			  console.log('poop123' + message);
-			  this.setState({ 
-				messageArray: [...this.state.messageArray, message] 
-			  });
-		  });
+		Sockets.readMessage((message) =>{ 
+			console.log('poop123' + message);
+			this.setState({ 
+			messageArray: [...this.state.messageArray, message] 
+			});
+		});
 	}
 
 	
@@ -66,34 +69,30 @@ class App extends Component {
 		Sockets.sendMessage(dosPeepsMassage);
 		this.setState({ 
 			messageArray: [...this.state.messageArray, dosPeepsMassage] 
-		  });
+		});
 	}
 
 	render() {
 		return (
 			<div className="site-wrapper">
-				<div>
-				{(this.state.val) &&
-                    <h1>Index</h1>
-				}
-				<div className="row">
 				<ul id="messages"></ul>
-						<input id="m" autocomplete="off" />
-						<button
-						onClick={this.emitOnClick}
-						>Send</button>
-				</div>
-			</div>
-				 <p className="App-intro">
-				This is the timer value: {this.state.timestamp}
+				<input id="m" />
+				<button
+					onClick={this.emitOnClick}
+				>
+					Send
+				</button>
+				<p className="App-intro">
+					This is the timer value: {this.state.timestamp}
 				</p>
+				<Index />
 				<ul>
 					{
 						this.state.messageArray.map(message => {
 							return (<li>{message}</li>)
 						})
 					}
-					</ul>
+				</ul>
 			</div>
 		);
 	}
@@ -103,6 +102,8 @@ function mapStateToProps(state) {
 	return { ...state };
 }
 
+const AppRouter = withGracefulUnmount(withRouter(connect(mapStateToProps)(App)));
+
 const mountNode = document.getElementById('root');
 
-ReactDOM.render(<App />, mountNode);
+ReactDOM.render(<Root />, mountNode);
