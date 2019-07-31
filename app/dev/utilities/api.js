@@ -11,8 +11,8 @@ function socketInit(cb) {
  });
 }
 
-function sendMessage(ourMessage) {
-  socket.emit('readMessage', ourMessage);
+function sendMessage(ourMessage, room='1234') {
+  socket.emit('readMessage', ourMessage, room);
 }
 function readMessage(ourMessage) {
   socket.on('readMessage', ourMessage);

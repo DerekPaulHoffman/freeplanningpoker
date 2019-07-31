@@ -66,7 +66,8 @@ class App extends Component {
 	
 	emitOnClick = () => {
 		const dosPeepsMassage = document.getElementById('m').value;
-		Sockets.sendMessage(dosPeepsMassage);
+		const demRooms = document.getElementById('room').value;
+		Sockets.sendMessage(dosPeepsMassage, demRooms);
 		this.setState({ 
 			messageArray: [...this.state.messageArray, dosPeepsMassage] 
 		});
@@ -77,6 +78,7 @@ class App extends Component {
 			<div className="site-wrapper">
 				<ul id="messages"></ul>
 				<input id="m" />
+				<input id="room" value='1234' />
 				<button
 					onClick={this.emitOnClick}
 				>
