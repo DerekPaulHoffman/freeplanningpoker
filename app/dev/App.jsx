@@ -44,7 +44,7 @@ class App extends Component {
 
 		  
 		  Sockets.readMessage((message) =>{ 
-			  console.log(message);
+			  console.log('asdfasdf' + message);
 			//messageArray: [...messageArray, message] 
 		  });
 

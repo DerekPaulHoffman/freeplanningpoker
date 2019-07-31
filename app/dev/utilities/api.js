@@ -15,6 +15,7 @@ function sendMessage(ourMessage) {
 function readMessage(ourMessage) {
   console.log(ourMessage)
   socket.on('chat message', (msg) => {
+    console.log("poopy" + msg)
     return msg;
     })
 }

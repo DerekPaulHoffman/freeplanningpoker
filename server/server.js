@@ -11,7 +11,7 @@ io.on('connection', (client) => {
     });
   });
   client.on('chat message', (newMessage) => {
-    client.emit('neMessage', newMessage);
+    client.emit('chat message', newMessage);
   });
 });
 
