@@ -44,7 +44,7 @@ class App extends Component {
 
 		  
 		  Sockets.readMessage((message) =>{ 
-			  console.log('asdfasdf' + message);
+			  console.log('poop123' + message);
 			//messageArray: [...messageArray, message] 
 		  });
 
