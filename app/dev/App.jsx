@@ -41,9 +41,12 @@ class App extends Component {
 		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
 			timestamp 
 		  }));
-		  Sockets.sendMessage((message) => this.setState({ 
-			messageArray: [...messageArray, message] 
-		  }));
+
+		  
+		  Sockets.readMessage((message) =>{ 
+			  console.log(message);
+			//messageArray: [...messageArray, message] 
+		  });
 
 		this.state = {
 			val: false,

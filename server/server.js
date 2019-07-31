@@ -10,6 +10,9 @@ io.on('connection', (client) => {
       console.log('user disconnected');
     });
   });
+  client.on('chat message', (newMessage) => {
+    client.emit('neMessage', newMessage);
+  });
 });
 
 const port = 8000;

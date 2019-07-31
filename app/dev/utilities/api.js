@@ -6,7 +6,17 @@ function subscribeToTimer(cb) {
 }
 
 function sendMessage(ourMessage) {
+  console.log(ourMessage)
+  // socket.on('chat message', timestamp => cb(null, timestamp));
   socket.emit('chat message', ourMessage);
+
+  //dispatch(sessionActions.updateMessageArr(ourMessage));
+}
+function readMessage(ourMessage) {
+  console.log(ourMessage)
+  socket.on('chat message', (msg) => {
+    return msg;
+    })
 }
 
-export { subscribeToTimer, sendMessage }
+export { subscribeToTimer, sendMessage, readMessage }
