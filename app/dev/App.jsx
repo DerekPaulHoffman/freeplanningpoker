@@ -73,6 +73,11 @@ class App extends Component {
 		});
 	}
 
+	joinTheRoom = () => {
+		const demRooms = document.getElementById('room').value;
+		Sockets.joinRoom(demRooms);
+	}
+
 	render() {
 		return (
 			<div className="site-wrapper">
@@ -83,6 +88,11 @@ class App extends Component {
 					onClick={this.emitOnClick}
 				>
 					Send
+				</button>
+				<button
+					onClick={this.joinTheRoom}
+				>
+					Join the room
 				</button>
 				<p className="App-intro">
 					This is the timer value: {this.state.timestamp}
