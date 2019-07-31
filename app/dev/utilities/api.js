@@ -14,7 +14,7 @@ function sendMessage(ourMessage) {
 }
 function readMessage(ourMessage) {
   console.log(ourMessage)
-  socket.emit('readMessage', ourMessage => cb(ourMessage));
+  socket.on('readMessage', ourMessage => cb(ourMessage));
 }
 
 export { subscribeToTimer, sendMessage, readMessage }
