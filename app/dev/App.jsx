@@ -13,7 +13,6 @@ import * as sessionActions from 'Actions/session';
 import { subscribeToTimer } from 'Utilities/api.js';
 
 // Templates
-import Index from 'Templates/Index/Index.jsx';
 
 import './styles/Common.scss';
 
@@ -22,21 +21,24 @@ import packageJson from '../../package.json';
 //Sockets
 import * as Sockets from 'Utilities/api.js';
 
-const store = configureStore();
 
 function Root() {
 	return (
-		<Provider store={store}>
-			<BrowserRouter>
-				<AppRouter />
-			</BrowserRouter>
-		</Provider>
+		<BrowserRouter>
+			<AppRouter />
+		</BrowserRouter>
 	);
 }
 
 class App extends Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			val: false,
+			timestamp: 'no timestamp yet',
+			messageArray:[],
+		};
 
 		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
 			timestamp 
@@ -45,14 +47,10 @@ class App extends Component {
 		  
 		  Sockets.readMessage((message) =>{ 
 			  console.log('poop123' + message);
-			//messageArray: [...messageArray, message] 
+			  this.setState({ 
+				messageArray: [...this.state.messageArray, message] 
+			  });
 		  });
-
-		this.state = {
-			val: false,
-			timestamp: 'no timestamp yet',
-			messageArray:[],
-		};
 	}
 	componentDidMount() {
 		if(!this.state.val) {
@@ -60,9 +58,27 @@ class App extends Component {
 		}
 	}
 
+	
+	emitOnClick = () => {
+		const dosPeepsMassage = document.getElementById('m').value;
+		Sockets.sendMessage(dosPeepsMassage);
+	}
+
 	render() {
 		return (
 			<div className="site-wrapper">
+				<div>
+				{(this.state.val) &&
+                    <h1>Index</h1>
+				}
+				<div className="row">
+				<ul id="messages"></ul>
+						<input id="m" autocomplete="off" />
+						<button
+						onClick={this.emitOnClick}
+						>Send</button>
+				</div>
+			</div>
 				 <p className="App-intro">
 				This is the timer value: {this.state.timestamp}
 				</p>
@@ -73,9 +89,6 @@ class App extends Component {
 						})
 					}
 					</ul>
-				<Switch>
-					<Route exact-path="/" component={Index} />
-				</Switch>
 			</div>
 		);
 	}
@@ -85,8 +98,6 @@ function mapStateToProps(state) {
 	return { ...state };
 }
 
-const AppRouter = withGracefulUnmount(withRouter(connect(mapStateToProps)(App)));
-
 const mountNode = document.getElementById('root');
 
-ReactDOM.render(<Root />, mountNode);
+ReactDOM.render(<App />, mountNode);

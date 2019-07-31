@@ -22,18 +22,7 @@ class Index extends Component {
     
 	render() {
 		return (
-			<div>
-				{(this.state.val) &&
-                    <h1>Index</h1>
-				}
-				<div className="row">
-				<ul id="messages"></ul>
-						<input id="m" autocomplete="off" />
-						<button
-						onClick={this.emitOnClick}
-						>Send</button>
-				</div>
-			</div>
+			
 		);
 	}
 }
