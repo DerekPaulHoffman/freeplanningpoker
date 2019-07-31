@@ -41,10 +41,14 @@ class App extends Component {
 		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
 			timestamp 
 		  }));
+		  Sockets.sendMessage((message) => this.setState({ 
+			messageArray: [...messageArray, message] 
+		  }));
 
 		this.state = {
 			val: false,
-			timestamp: 'no timestamp yet'
+			timestamp: 'no timestamp yet',
+			messageArray:[],
 		};
 	}
 	componentDidMount() {
@@ -59,6 +63,13 @@ class App extends Component {
 				 <p className="App-intro">
 				This is the timer value: {this.state.timestamp}
 				</p>
+				<ul>
+					{
+						this.state.messageArray.map(message => {
+							return (<li>{message}</li>)
+						})
+					}
+					</ul>
 				<Switch>
 					<Route exact-path="/" component={Index} />
 				</Switch>

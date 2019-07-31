@@ -6,6 +6,9 @@ io.on('connection', (client) => {
     setInterval(() => {
       client.emit('timer', new Date());
     }, interval);
+    socket.on('disconnect', function(){
+      console.log('user disconnected');
+    });
   });
 });
 
