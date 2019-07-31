@@ -1,4 +1,5 @@
 const io = require('socket.io')();
+let room = "abc123";
 io.on('connection', (socket) => {
   socket.on('socketInit', (interval) => {
     console.log('client is subscribing to timer with interval ', interval);
@@ -16,7 +17,7 @@ io.on('connection', (socket) => {
   });
   socket.on('readMessage', (newMessage) => {
     console.log("server chat message",newMessage )
-    socket.broadcast.emit('readMessage', newMessage);
+    socket.broadcast.in(room).emit('readMessage', newMessage);
   });
 });
 
@@ -25,5 +26,4 @@ io.listen(port);
 console.log('listening on port ', port);
 
 
-let room = "abc123";
 io.sockets.in(room).emit('readMessage', 'what is going on, party people?');
