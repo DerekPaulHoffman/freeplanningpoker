@@ -70,7 +70,7 @@ class App extends Component {
 		const datUser = document.getElementById('username').value;
 		Sockets.sendMessage(dosPeepsMassage, demRooms, datUser);
 		this.setState({ 
-			messageArray: [...this.state.messageArray, dosPeepsMassage] 
+			messageArray: [...this.state.messageArray, 'User:' + datUser + " Message:" + dosPeepsMassage] 
 		});
 	}
 
@@ -79,27 +79,44 @@ class App extends Component {
 		Sockets.joinRoom(demRooms);
 	}
 
+	setUserName = () => {
+		const { dispatch } = this.props;
+		const name = document.getElementById('username').value;
+		dispatch(sessionActions.updateUserName(name));
+	}
+
 	render() {
 		return (
 			<div className="site-wrapper">
 				<ul id="messages"></ul>
-				<input id="m" placeholder="message"/>
-				<input id="room"  placeholder="room"/>
-				<input id="username"  placeholder="username"/>
-				<button
-					onClick={this.emitOnClick}
-				>
-					Send
-				</button>
-				<button
-					onClick={this.joinTheRoom}
-				>
-					Join the room
-				</button>
+
+				<div className="col-xs-6">
+					<input id="room"  placeholder="room"/>
+					<button
+						onClick={this.joinTheRoom}
+					>
+						Join the room
+					</button>
+				</div>
+				<div className="col-xs-6">
+					<input id="username" placeholder="username" />
+					<button
+						onClick={this.setUserName}
+					>
+						Set Username
+					</button>
+				</div>
+				<div className="col-xs-6">
+					<input id="m" placeholder="message" />
+					<button
+						onClick={this.emitOnClick}
+					>
+							Send
+					</button>
+				</div>
 				<p className="App-intro">
 					This is the timer value: {this.state.timestamp}
 				</p>
-				<Index />
 				<ul>
 					{
 						this.state.messageArray.map(message => {
@@ -107,6 +124,7 @@ class App extends Component {
 						})
 					}
 				</ul>
+				<Index />
 			</div>
 		);
 	}
