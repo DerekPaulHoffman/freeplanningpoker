@@ -10,7 +10,7 @@ import configureStore from 'Store/configureStore';
 // Actions
 import * as sessionActions from 'Actions/session';
 
-import { subscribeToTimer } from 'Utilities/api.js';
+import { socketInit } from 'Utilities/api.js';
 
 // Templates
 import Index from 'Templates/Index/Index.jsx';
@@ -51,7 +51,7 @@ class App extends Component {
 			console.log(packageJson.version);
 		}
 
-		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
+		Sockets.socketInit((err, timestamp) => this.setState({ 
 			timestamp 
 		}));
 
