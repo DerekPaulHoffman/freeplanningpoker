@@ -8,6 +8,7 @@ io.on('connection', (socket) => {
   });
   // once a client has connected, we expect to get a ping from them saying what room they want to join
   socket.on('room', function(room) {
+    console.log("joining room: " + room);
     socket.join(room);
   });
   socket.on('disconnect', function(){
@@ -25,4 +26,4 @@ console.log('listening on port ', port);
 
 
 let room = "abc123";
-io.sockets.in(room).emit('message', 'what is going on, party people?');
+io.sockets.in(room).emit('readMessage', 'what is going on, party people?');
