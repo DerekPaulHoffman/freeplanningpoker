@@ -12,7 +12,7 @@ io.on('connection', (client) => {
   });
   client.on('chat message', (newMessage) => {
     console.log("server chat message",newMessage )
-    client.broadcast.emit('readMessage', { for: 'everyone' }, newMessage);
+    client.broadcast.emit('readMessage', newMessage);
   });
 });
 
