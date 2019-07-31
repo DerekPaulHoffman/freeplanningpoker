@@ -6,11 +6,11 @@ function socketInit(cb) {
   socket.emit('socketInit', 1000);
 }
 
-function sendMessage(ourMessage, room='1234') {
-  socket.emit('readMessage', ourMessage, room);
+function sendMessage(ourMessage, room, datUser) {
+  socket.emit('readMessage', ourMessage, room, datUser);
 }
-function readMessage(ourMessage) {
-  socket.on('readMessage', ourMessage);
+function readMessage(ourMessage, datUser) {
+  socket.on('readMessage', ourMessage, datUser);
 }
 
 function joinRoom(room) {

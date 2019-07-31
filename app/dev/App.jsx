@@ -55,10 +55,10 @@ class App extends Component {
 			timestamp 
 		}));
 
-		Sockets.readMessage((message) =>{ 
+		Sockets.readMessage((message, datUser) =>{ 
 			console.log('poop123' + message);
 			this.setState({ 
-			messageArray: [...this.state.messageArray, message] 
+			messageArray: [...this.state.messageArray, 'User:' +datUser + " Message:" + message] 
 			});
 		});
 	}
@@ -67,7 +67,8 @@ class App extends Component {
 	emitOnClick = () => {
 		const dosPeepsMassage = document.getElementById('m').value;
 		const demRooms = document.getElementById('room').value;
-		Sockets.sendMessage(dosPeepsMassage, demRooms);
+		const datUser = document.getElementById('username').value;
+		Sockets.sendMessage(dosPeepsMassage, demRooms, datUser);
 		this.setState({ 
 			messageArray: [...this.state.messageArray, dosPeepsMassage] 
 		});
@@ -82,8 +83,9 @@ class App extends Component {
 		return (
 			<div className="site-wrapper">
 				<ul id="messages"></ul>
-				<input id="m" />
-				<input id="room" value='1234' />
+				<input id="m" placeholder="message"/>
+				<input id="room"  placeholder="room"/>
+				<input id="username"  placeholder="username"/>
 				<button
 					onClick={this.emitOnClick}
 				>

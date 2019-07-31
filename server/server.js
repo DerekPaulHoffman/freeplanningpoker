@@ -14,10 +14,11 @@ io.on('connection', (socket) => {
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-  socket.on('readMessage', (newMessage, room) => {
+  socket.on('readMessage', (newMessage, room, datUser) => {
     console.log("server chat message: ",newMessage )
     console.log("server chat room: ", room)
-    socket.broadcast.in(room).emit('readMessage', newMessage);
+    console.log("server chat user: ", datUser)
+    socket.broadcast.in(room).emit('readMessage', newMessage, datUser);
   });
 });
 
