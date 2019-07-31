@@ -6,13 +6,11 @@ function subscribeToTimer(cb) {
 }
 
 function sendMessage(ourMessage) {
-  console.log(ourMessage)
-  // socket.on('chat message', timestamp => cb(null, timestamp));
+  console.log("sendMessage"+ourMessage)
   socket.emit('readMessage', ourMessage);
-  readMessage(ourMessage);
 }
 function readMessage(ourMessage) {
-  console.log(ourMessage)
+  console.log("readMessage"+ourMessage)
   socket.on('readMessage', ourMessage);
 }
 

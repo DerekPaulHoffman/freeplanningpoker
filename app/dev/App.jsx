@@ -40,6 +40,13 @@ class App extends Component {
 			messageArray:[],
 		};
 
+	
+	}
+	componentDidMount() {
+		if(!this.state.val) {
+			console.log(packageJson.version);
+		}
+
 		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
 			timestamp 
 		  }));
@@ -52,16 +59,14 @@ class App extends Component {
 			  });
 		  });
 	}
-	componentDidMount() {
-		if(!this.state.val) {
-			console.log(packageJson.version);
-		}
-	}
 
 	
 	emitOnClick = () => {
 		const dosPeepsMassage = document.getElementById('m').value;
 		Sockets.sendMessage(dosPeepsMassage);
+		this.setState({ 
+			messageArray: [...this.state.messageArray, dosPeepsMassage] 
+		  });
 	}
 
 	render() {
