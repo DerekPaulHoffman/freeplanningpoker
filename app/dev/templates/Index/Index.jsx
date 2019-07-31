@@ -15,10 +15,6 @@ class Index extends Component {
 		};
 	}
 
-	emitOnClick = () => {
-		const dosPeepsMassage = document.getElementById('m').value;
-		Sockets.sendMessage(dosPeepsMassage);
-	}
     
 	render() {
 		return (

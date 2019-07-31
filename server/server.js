@@ -10,7 +10,7 @@ io.on('connection', (client) => {
       console.log('user disconnected');
     });
   });
-  client.on('chat message', (newMessage) => {
+  client.on('readMessage', (newMessage) => {
     console.log("server chat message",newMessage )
     client.broadcast.emit('readMessage', newMessage);
   });
