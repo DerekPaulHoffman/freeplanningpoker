@@ -68,12 +68,11 @@
     "react-hot-loader": "^4.0.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.2",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.3.6"
   },
   "scripts": {
     "install": "npm run install-webpack-dev-server",
     "install-webpack-dev-server": "npm install -g webpack webpack-dev-server",
-    "prebuild": "gulp clean && gulp bump",
     "build": "webpack --config webpack.prod.js",
     "prepublish": "npm run build",
     "publish": "gulp publish && gulp git",

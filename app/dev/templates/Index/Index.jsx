@@ -19,7 +19,6 @@ class Index extends Component {
                     <h1>Index</h1>
 				}
 				<div className="row">
-
 				</div>
 			</div>
 		);

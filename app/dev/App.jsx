@@ -19,6 +19,9 @@ import './styles/Common.scss';
 
 import packageJson from '../../package.json';
 
+//Sockets
+import * as Sockets from 'Utilities/api.js';
+
 const store = configureStore();
 
 function Root() {
@@ -35,12 +38,13 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
-
-		subscribeToTimer((err, timestamp) => this.setState({ 
+		Sockets.subscribeToTimer((err, timestamp) => this.setState({ 
 			timestamp 
-		}));
+		  }));
+
 		this.state = {
-			timestamp: 'no timestamp yet',
+			val: false,
+			timestamp: 'no timestamp yet'
 		};
 	}
 	componentDidMount() {
@@ -52,11 +56,12 @@ class App extends Component {
 	render() {
 		return (
 			<div className="site-wrapper">
-				<div className="App">
-					<p className="App-intro">
-						This is the timer value: {this.state.timestamp}
-					</p>
-				</div>
+				 <p className="App-intro">
+				This is the timer value: {this.state.timestamp}
+				</p>
+				<Switch>
+					<Route exact-path="/" component={Index} />
+				</Switch>
 			</div>
 		);
 	}
