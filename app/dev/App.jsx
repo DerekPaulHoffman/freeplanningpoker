@@ -14,6 +14,8 @@ import Room from 'Templates/Room/Room.jsx';
 
 import './styles/Common.scss';
 
+
+import * as Sockets from 'Utilities/api.js';
 import * as sessionActions from 'Actions/session.js';
 
 import packageJson from '../../package.json';
@@ -49,6 +51,10 @@ class App extends Component {
 		if (!this.state.loaded) {
 			history.push(`/`);
 		}
+
+		Sockets.socketInit((err, timestamp) => this.setState({
+			timestamp
+		}));
 	}
 	
 

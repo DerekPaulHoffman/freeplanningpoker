@@ -41,10 +41,6 @@ class Room extends Component {
     }
 
     componentDidMount() {
-        Sockets.socketInit((err, timestamp) => this.setState({
-            timestamp
-        }));
-
         Sockets.readRoomUsers((roomUsers) => {
             this.readRoomUsers(roomUsers)
         });
