@@ -10,7 +10,7 @@ io.on('connection', (socket) => {
   socket.on('room', function(room) {
     console.log("joining room: " + room);
     socket.join(room);
-    io.clients((error, clients) => {
+    io.in(room).clients((error, clients) => {
       if (error) throw error;
       console.log(clients); // => [6em3d4TJP8Et9EMNAAAA, G5p55dHhGgUnLUctAAAB]
 });
