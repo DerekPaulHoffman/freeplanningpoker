@@ -32,8 +32,6 @@ class Room extends Component {
     componentWillUpdate() {
         const { session, dispatch } = this.props;
         const sessionId = Sockets.getSessionId();
-
-        console.log(sessionId);
         if (session.sessionId !== sessionId) {
             dispatch(sessionActions.updateSessionId(sessionId));
             this.readRoomUsers([sessionId])
@@ -69,8 +67,7 @@ class Room extends Component {
 
 
     emitOnClick = (numberVal) => {
-        const demRooms = document.getElementById('room').value;
-        Sockets.sendMessage(numberVal, demRooms);
+        Sockets.sendMessage(numberVal);
 
         var foundIndex = this.state.roomUsers.findIndex(x => x.id == this.props.session.sessionId);
         this.state.roomUsers[foundIndex].vote = numberVal
