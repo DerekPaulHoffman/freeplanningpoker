@@ -55,13 +55,12 @@ class App extends Component {
 		const sessionId = Sockets.getSessionId();
 		if (session.sessionId !== sessionId) {
 			dispatch(sessionActions.updateSessionId(sessionId));
-			this.readRoomUsers([sessionId])
+			this.readRoomUsers([sessionId], this.props.session.userName)
 		}
 
 	}
 
 	componentDidMount() {
-		const datUser = this.state.userName;
 		if(!this.state.val) {
 			console.log(packageJson.version);
 		}
@@ -69,8 +68,8 @@ class App extends Component {
 		Sockets.socketInit((err, timestamp) => this.setState({ 
 			timestamp 
 		}));
-		Sockets.readRoomUsers((roomUsers) =>{
-			this.readRoomUsers(roomUsers)
+		Sockets.readRoomUsers((roomUsers, userName) =>{
+			this.readRoomUsers(roomUsers, userName)
 		});
 		
 		
@@ -82,12 +81,13 @@ class App extends Component {
 		});
 	}
 
-	readRoomUsers = (roomUsers) => {
+	readRoomUsers = (roomUsers, userName) => {
 		const updateArr = [];
 			
 		roomUsers.map((user) => {
 			updateArr.push({
 				id: user,
+				userName,
 				vote: ''
 			});
 		})
@@ -118,7 +118,7 @@ class App extends Component {
 
 	joinTheRoom = () => {
 		const demRooms = document.getElementById('room').value;
-		Sockets.joinRoom(demRooms);
+		Sockets.joinRoom(demRooms, this.props.session.userName);
 	}
 
 	showVotes = () => {
@@ -171,12 +171,9 @@ class App extends Component {
 				{
 						this.state.roomUsers.map(roomUser => {
 							return (
-								<div>
-								<p>User: {roomUser.id}</p>
 								 <li>
-								 	<Card  className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
+								 	<Card cardName={roomUser.userName} cardReady={(roomUser.vote) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
 								 </li>
-								</div>
 							)
 						})
 					}

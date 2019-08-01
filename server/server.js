@@ -8,7 +8,7 @@ io.on('connection', (socket) => {
     }, interval);
   });
   // once a client has connected, we expect to get a ping from them saying what room they want to join
-  socket.on('room', function(room) {
+  socket.on('room', function(room, userName) {
     console.log("joining room: " + room);
     console.log("Client Id: " + socket.id);
     socket.join(room);
@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
       if (error) throw error;
       console.log(clients);
       console.log(room)
-      socket.broadcast.in(room).emit('readRoomUsers', clients);
+      socket.broadcast.in(room).emit('readRoomUsers', clients, userName);
     });
     // var clients = io.sockets.clients(room);
     // socket.broadcast.in(room).emit('readRoomUsers',clients);

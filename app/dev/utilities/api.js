@@ -22,11 +22,11 @@ function readMessage(ourMessage, socketID) {
   socket.on('readMessage', ourMessage, socketID);
 }
 
-function joinRoom(room) {
-  socket.emit('room', room);
+function joinRoom(room, userName) {
+  socket.emit('room', room, userName);
 }
-function readRoomUsers(users) {
-  socket.on('readRoomUsers', users);
+function readRoomUsers(users, userName) {
+  socket.on('readRoomUsers', users, userName);
 }
 
 export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId }
