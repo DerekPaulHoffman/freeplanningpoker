@@ -44,6 +44,8 @@ class Room extends Component {
         });
 
         Sockets.readMessage((message, theUser) => {
+
+            console.log(this.state.roomUsers);
             var foundIndex = this.state.roomUsers.findIndex(x => x.id == theUser);
             this.state.roomUsers[foundIndex].vote = message
             this.forceUpdate();

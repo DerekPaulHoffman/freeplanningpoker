@@ -14,9 +14,7 @@ const packageJson = require('./package.json');
 // TODO: This needs to be updated depending on where you keep your secrets file.
 const AWS_SECRET = require('../_config/planningpoker.json');
 
-// TODO: Change this based on the URL you want for the site.
-// * Example -> mybonuscenter/bizrateapp
-const PATH = 'mdc-magazinediscountcenter/testsites';
+const PATH = '/';
 
 const S3 = awspublish.create(AWS_SECRET);
 const APP = path.join(__dirname, '/app/build/*');

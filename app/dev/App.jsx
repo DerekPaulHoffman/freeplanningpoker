@@ -50,6 +50,7 @@ class App extends Component {
 		console.log(packageJson.version);
 		const { history, session } = this.props;
 
+		console.log('appjsx','here');
 		Sockets.socketInit((err, timestamp) => this.setState({
 			timestamp
 		}));

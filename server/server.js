@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
     }
   });
   socket.on('readMessage', (newMessage, room) => {
-    console.log("server chat message: ",newMessage )
+    console.log("server chat message: ", newMessage)
     console.log("server chat room: ", room)
     io.in(room).emit('readMessage', newMessage, socket.id);
   });
