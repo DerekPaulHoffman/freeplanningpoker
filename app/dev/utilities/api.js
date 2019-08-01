@@ -19,6 +19,7 @@ function joinRoom(room) {
   socket.emit('room', room);
 }
 function readRoomUsers(users) {
+  console.log(readRoomUsers);
   socket.on('readRoomUsers', users);
 }
 

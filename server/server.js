@@ -14,6 +14,7 @@ io.on('connection', (socket) => {
     io.in(room).clients((error, clients) => {
       if (error) throw error;
       console.log(clients);
+      console.log(room)
       socket.broadcast.in(room).emit('readRoomUsers', clients);
 });
     // var clients = io.sockets.clients(room);
