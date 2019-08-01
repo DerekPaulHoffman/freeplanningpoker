@@ -14,11 +14,11 @@ function getSessionId() {
   return sessionId;
 }
 
-function sendMessage(ourMessage, room, datUser) {
-  socket.emit('readMessage', ourMessage, room, datUser);
+function sendMessage(ourMessage, room) {
+  socket.emit('readMessage', ourMessage, room);
 }
-function readMessage(ourMessage, datUser) {
-  socket.on('readMessage', ourMessage, datUser);
+function readMessage(ourMessage, socketID) {
+  socket.on('readMessage', ourMessage, socketID);
 }
 
 function joinRoom(room) {

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 
 import * as Sockets from 'Utilities/api.js';
 
-import './Index.scss';
+import './Card.scss';
 
 function flipCard(val) {
 	// console.log(val);
 }
 
-class Index extends Component {
+class Card extends Component {
 	constructor(props) {
 		super(props);
 
@@ -22,9 +22,9 @@ class Index extends Component {
     
 	render() {
 		return (
-			<div className="card-list">
-				
-		  </div>
+			<li>
+				{this.props.number}
+		  	</li>
 		);
 	}
 }
@@ -33,4 +33,4 @@ function mapStateToProps(state) {
 	return { ...state };
 }
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(Card);

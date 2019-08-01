@@ -14,6 +14,8 @@ import { socketInit } from 'Utilities/api.js';
 
 // Templates
 import Index from 'Templates/Index/Index.jsx';
+import Cards from 'Components/Cards/Cards.jsx';
+import Card from 'Components/Card/Card.jsx';
 
 import './styles/Common.scss';
 
@@ -66,13 +68,16 @@ class App extends Component {
 		Sockets.socketInit((err, timestamp) => this.setState({ 
 			timestamp 
 		}));
-		Sockets.readRoomUsers((roomUsers) => this.setState({ 
-			roomUsers
-		}));
+		Sockets.readRoomUsers((roomUsers) =>{
+			console.log(roomUsers)
+			this.setState({ 
+				roomUsers: [...this.state.roomUsers, roomUsers] 
+			});
+		});
 		
 
-		Sockets.readMessage((message) =>{ 
-			const fullMessage = `${datUser}: ${message}`;
+		Sockets.readMessage((message, theUser) =>{ 
+			const fullMessage = `${theUser}: ${message}`;
 			this.setState({ 
 				messageArray: [...this.state.messageArray, fullMessage] 
 			});
@@ -138,13 +143,19 @@ class App extends Component {
 							Send
 					</button>
 				</div>
-				<p>
-				This is the users in this room:{
-						this.state.roomUsers.map(roomUsers => {
-							return (<li>{roomUsers}</li>)
+				<Cards/>
+				<ul className="card-list">
+				users:{
+						this.state.roomUsers.map(roomUser => {
+							return (
+								<li>
+									<p>roomUser: {roomUser}</p>
+									<Card/>
+								</li>
+							)
 						})
 					}
-				</p>
+				</ul>
 				<ul>
 					{
 						this.state.messageArray.map((message, index) => {

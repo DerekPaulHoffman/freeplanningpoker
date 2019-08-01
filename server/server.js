@@ -1,5 +1,6 @@
 const io = require('socket.io')();
 io.on('connection', (socket) => {
+  socket.emit('connect', socket.id);
   socket.on('socketInit', (interval) => {
     console.log('client is subscribing to timer with interval ', interval);
     setInterval(() => {
@@ -16,18 +17,17 @@ io.on('connection', (socket) => {
       console.log(clients);
       console.log(room)
       socket.broadcast.in(room).emit('readRoomUsers', clients);
-});
+    });
     // var clients = io.sockets.clients(room);
     // socket.broadcast.in(room).emit('readRoomUsers',clients);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-  socket.on('readMessage', (newMessage, room, datUser) => {
+  socket.on('readMessage', (newMessage, room) => {
     console.log("server chat message: ",newMessage )
     console.log("server chat room: ", room)
-    console.log("server chat user: ", datUser)
-    socket.broadcast.in(room).emit('readMessage', newMessage, datUser);
+    socket.broadcast.in(room).emit('readMessage', newMessage, socket.id);
   });
 });
 
