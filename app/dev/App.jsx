@@ -138,8 +138,10 @@ class App extends Component {
 				</p>
 				<ul>
 					{
-						this.state.messageArray.map(message => {
-							return (<li>{message}</li>)
+						this.state.messageArray.map((message, index) => {
+							return (
+								<li key={index + 1}>{message}</li>
+							)
 						})
 					}
 				</ul>
