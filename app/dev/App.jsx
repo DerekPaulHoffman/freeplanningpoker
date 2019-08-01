@@ -41,21 +41,27 @@ class App extends Component {
 		this.state = {
 			val: false,
 			timestamp: 'no timestamp yet',
-			userName: props.session.userName,
 			messageArray:[],
 			roomUsers:[]
 		};
 
-	
 	}
+	
+	componentWillUpdate() {
+		const { session, dispatch } = this.props;
+		if(session.sessionId === '') {
+			const sessionId = Sockets.getSessionId();
+			dispatch(sessionActions.updateSessionId(sessionId));
+		}
+
+	}
+
 	componentDidMount() {
 		const datUser = this.state.userName;
-		
 		
 		if(!this.state.val) {
 			console.log(packageJson.version);
 		}
-
 
 		Sockets.socketInit((err, timestamp) => this.setState({ 
 			timestamp 
@@ -99,9 +105,12 @@ class App extends Component {
 	}
 
 	render() {
+		const { session } = this.props;
 		return (
 			<div className="site-wrapper">
-				<ul id="messages"></ul>
+				<div className="col-xs-6">
+					<h1>Hello {session.userName}</h1>
+				</div>
 
 				<div className="col-xs-6">
 					<input id="room"  placeholder="room"/>
@@ -111,7 +120,7 @@ class App extends Component {
 						Join the room
 					</button>
 				</div>
-				{(this.state.userName === '') && (
+				{(session.userName === '') && (
 					<div className="col-xs-6">
 						<input id="username" placeholder="username" />
 						<button

@@ -1,17 +1,20 @@
 import {
 	UPDATE_USER_NAME,
+	UPDATE_SESSION_ID,
 } from 'Actions/session.js';
 
 const initialState = {
 	userName: '',
+	sessionId: '',
 };
 
 const sessionReducer = (state, action) => {
 	switch (action.type) {
+		case UPDATE_SESSION_ID:
 		case UPDATE_USER_NAME: {
 			return {
 				...state,
-				userName: action.userName,
+				[action.param]: action.val,
 			};
 		}
 		default:
