@@ -52,8 +52,9 @@ class App extends Component {
 	componentWillUpdate() {
 		const { session, dispatch } = this.props;
 		const sessionId = Sockets.getSessionId();
-		if (session.sessionId === '' || session.sessionid !== sessionId) {
+		if (session.sessionId !== sessionId) {
 			dispatch(sessionActions.updateSessionId(sessionId));
+			this.readRoomUsers([sessionId])
 		}
 
 	}
@@ -70,7 +71,7 @@ class App extends Component {
 		Sockets.readRoomUsers((roomUsers) =>{
 			this.readRoomUsers(roomUsers)
 		});
-		this.readRoomUsers([this.props.session.sessionId])
+		
 		
 
 		Sockets.readMessage((message, theUser) =>{ 
