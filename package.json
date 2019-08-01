@@ -77,7 +77,7 @@
     "prepublish": "npm run build",
     "publish": "gulp publish && gulp git",
     "sync": "gulp sync",
-    "push": "npm run publish && gulp sync",
+    "push": "npm run publish",
     "start": "webpack-dev-server --open --config webpack.common.js"
   }
 }
