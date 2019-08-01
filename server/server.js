@@ -10,8 +10,12 @@ io.on('connection', (socket) => {
   socket.on('room', function(room) {
     console.log("joining room: " + room);
     socket.join(room);
-    var clients = io.sockets.clients(room);
-    socket.broadcast.in(room).emit('readRoomUsers',clients);
+    io.clients((error, clients) => {
+      if (error) throw error;
+      console.log(clients); // => [6em3d4TJP8Et9EMNAAAA, G5p55dHhGgUnLUctAAAB]
+});
+    // var clients = io.sockets.clients(room);
+    // socket.broadcast.in(room).emit('readRoomUsers',clients);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected');
