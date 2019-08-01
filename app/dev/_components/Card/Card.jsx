@@ -5,7 +5,8 @@ import './Card.scss';
 
 function Card(props) {
 	return (
-		<li className={`card ${props.className}`} onClick={() => props.emitOnClick(props.number)}>
+		<li className={`card ${this.props.className} ${this.props.cardReady}`} onClick={() => this.props.emitOnClick(this.props.number)}>
+			{this.props.cardName}
 			<div className="card__back">
 				{props.number}
 			</div>

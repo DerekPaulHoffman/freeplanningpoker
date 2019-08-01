@@ -103,7 +103,7 @@ class Room extends Component {
                                 <div key={index + 1}>
                                     <p>User: {roomUser.id}</p>
                                     <li>
-                                        <Card className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote} />
+                                        <Card cardName={roomUser.userName} cardReady={(roomUser.vote) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
                                     </li>
                                 </div>
                             )
