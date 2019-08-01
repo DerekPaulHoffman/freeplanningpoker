@@ -67,7 +67,7 @@ class Room extends Component {
 
 
     emitOnClick = (numberVal) => {
-        Sockets.sendMessage(numberVal);
+        Sockets.sendMessage(numberVal, this.props.session.room);
 
         var foundIndex = this.state.roomUsers.findIndex(x => x.id == this.props.session.sessionId);
         this.state.roomUsers[foundIndex].vote = numberVal
