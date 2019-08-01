@@ -45,6 +45,7 @@ class App extends Component {
 			timestamp: 'no timestamp yet',
 			messageArray:[],
 			roomUsers:[],
+			showVotes:false,
 		};
 
 	}
@@ -120,6 +121,12 @@ class App extends Component {
 		Sockets.joinRoom(demRooms);
 	}
 
+	showVotes = () => {
+		this.setState({ 
+			showVotes: !this.state.showVotes,
+		});
+	}
+
 	setUserName = () => {
 		const { dispatch } = this.props;
 		const name = document.getElementById('username').value;
@@ -153,34 +160,23 @@ class App extends Component {
 						</button>
 					</div>
 				)}
-				<div className="col-xs-6">
-					<input id="m" placeholder="message" />
-					<button
-						onClick={this.emitOnClick}
-					>
-							Send
-					</button>
-				</div>
 				<Cards emitOnClick={this.emitOnClick} />
-				<ul className="card-list">
+				
+				<button
+							onClick={this.showVotes}
+						>
+							show votes
+						</button>
+				<ul className="card-list col-xs-12">
 				{
 						this.state.roomUsers.map(roomUser => {
 							return (
 								<div>
 								<p>User: {roomUser.id}</p>
-								// <li>
-								// 	<Card number={roomUser.vote}/>
-								// </li>
+								 <li>
+								 	<Card  className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
+								 </li>
 								</div>
-							)
-						})
-					}
-				</ul>
-				<ul>
-					{
-						this.state.messageArray.map((message, index) => {
-							return (
-								<li key={index + 1}>{message}</li>
 							)
 						})
 					}
