@@ -6,6 +6,7 @@ function socketInit(cb) {
   socket.on('timer', timestamp => cb(null, timestamp));
   socket.emit('socketInit', 1000);
   socket.on('connect', () => {
+    console.log(" socket.id: " + socket.id)
     sessionId = socket.id;
   });
 }

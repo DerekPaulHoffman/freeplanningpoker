@@ -60,7 +60,6 @@ class App extends Component {
 
 	componentDidMount() {
 		const datUser = this.state.userName;
-		
 		if(!this.state.val) {
 			console.log(packageJson.version);
 		}
@@ -69,19 +68,9 @@ class App extends Component {
 			timestamp 
 		}));
 		Sockets.readRoomUsers((roomUsers) =>{
-			const updateArr = [];
-			
-			roomUsers.map((user) => {
-				updateArr.push({
-					id: user,
-					vote: ''
-				});
-			})
-
-			this.setState({ 
-				roomUsers: updateArr,
-			});
+			this.readRoomUsers(roomUsers)
 		});
+		this.readRoomUsers([this.props.session.sessionId])
 		
 
 		Sockets.readMessage((message, theUser) =>{ 
@@ -91,12 +80,33 @@ class App extends Component {
 		});
 	}
 
+	readRoomUsers = (roomUsers) => {
+		const updateArr = [];
+			
+		roomUsers.map((user) => {
+			updateArr.push({
+				id: user,
+				vote: ''
+			});
+		})
+
+		this.setState({ 
+			roomUsers: updateArr,
+		});
+	}
+
 	
 	emitOnClick = (numberVal) => {
 		console.log(numberVal)
+		console.log(this.state.roomUsers)
+		console.log(this.props.session.sessionId)
 		// const dosPeepsMassage = document.getElementById('m').value;
 		const demRooms = document.getElementById('room').value;
 		Sockets.sendMessage(numberVal, demRooms);
+		
+		var foundIndex = this.state.roomUsers.findIndex(x => x.id == this.props.session.sessionId);
+		this.state.roomUsers[foundIndex].vote = numberVal
+		this.forceUpdate();
 
 		// const fullMessage = `${datUser}: ${dosPeepsMassage}`;
 		// this.setState({ 
@@ -156,10 +166,10 @@ class App extends Component {
 						this.state.roomUsers.map(roomUser => {
 							return (
 								<div>
-								<p>User: {roomUser.user}</p>
-								<li>
-									<Card number={roomUser.vote}/>
-								</li>
+								<p>User: {roomUser.id}</p>
+								// <li>
+								// 	<Card number={roomUser.vote}/>
+								// </li>
 								</div>
 							)
 						})
