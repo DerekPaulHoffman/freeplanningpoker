@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
       if (error) throw error;
       console.log(clients);
       console.log(room)
-      socket.broadcast.in(room).emit('readRoomUsers', clients, userName);
+      io.in(room).emit('readRoomUsers', clients, userName);
     });
     // var clients = io.sockets.clients(room);
     // socket.broadcast.in(room).emit('readRoomUsers',clients);
