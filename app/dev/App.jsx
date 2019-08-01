@@ -43,6 +43,7 @@ class App extends Component {
 			timestamp: 'no timestamp yet',
 			userName: props.session.userName,
 			messageArray:[],
+			roomUsers:[]
 		};
 
 	
@@ -55,6 +56,10 @@ class App extends Component {
 		Sockets.socketInit((err, timestamp) => this.setState({ 
 			timestamp 
 		}));
+		Sockets.readRoomUsers((roomUsers) => this.setState({ 
+			roomUsers
+		}));
+		
 
 		Sockets.readMessage((message, datUser) =>{ 
 			console.log('poop123' + message);
@@ -71,7 +76,7 @@ class App extends Component {
 		const datUser = this.props.session.userName;
 		Sockets.sendMessage(dosPeepsMassage, demRooms, datUser);
 		this.setState({ 
-			messageArray: [...this.state.messageArray, 'User:' + datUser + " Message:" + dosPeepsMassage] 
+			messageArray: [...this.state.messageArray, dosPeepsMassage] 
 		});
 	}
 
@@ -118,6 +123,13 @@ class App extends Component {
 							Send
 					</button>
 				</div>
+				<p>
+				This is the users in this room:{
+						this.state.roomUsers.map(roomUsers => {
+							return (<li>{roomUsers}</li>)
+						})
+					}
+				</p>
 				<ul>
 					{
 						this.state.messageArray.map(message => {

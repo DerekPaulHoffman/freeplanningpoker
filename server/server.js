@@ -10,6 +10,8 @@ io.on('connection', (socket) => {
   socket.on('room', function(room) {
     console.log("joining room: " + room);
     socket.join(room);
+    var clients = io.sockets.clients(room);
+    socket.broadcast.in(room).emit('readRoomUsers',clients);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected');
