@@ -2,183 +2,79 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import withGracefulUnmount from 'react-graceful-unmount';
 import configureStore from 'Store/configureStore';
 
-// Actions
-import * as sessionActions from 'Actions/session';
+import Header from 'Components/Header/Header.jsx';
 
-import { socketInit } from 'Utilities/api.js';
-
-// Templates
 import Index from 'Templates/Index/Index.jsx';
-import Cards from 'Components/Cards/Cards.jsx';
-import Card from 'Components/Card/Card.jsx';
+import Room from 'Templates/Room/Room.jsx';
 
 import './styles/Common.scss';
 
-import packageJson from '../../package.json';
+import * as sessionActions from 'Actions/session.js';
 
-//Sockets
-import * as Sockets from 'Utilities/api.js';
+import packageJson from '../../package.json';
 
 const store = configureStore();
 
 function Root() {
 	return (
 		<Provider store={store}>
-			<BrowserRouter>
+			<HashRouter>
 				<AppRouter />
-			</BrowserRouter>
+			</HashRouter>
 		</Provider>
 	);
 }
 
 class App extends Component {
 	constructor(props) {
-		super(props);
-
+		super(props);	
 		this.state = {
-			val: false,
-			timestamp: 'no timestamp yet',
-			messageArray:[],
-			roomUsers:[],
-			showVotes:false,
-		};
-
-	}
-	
-	componentWillUpdate() {
-		const { session, dispatch } = this.props;
-		const sessionId = Sockets.getSessionId();
-		if (session.sessionId !== sessionId) {
-			dispatch(sessionActions.updateSessionId(sessionId));
-			this.readRoomUsers([sessionId], this.props.session.userName)
+			loaded: false,
 		}
+	}
 
+	componentWillMount() {
+		const { dispatch } = this.props;
+		dispatch(sessionActions.clearRoomState());
 	}
 
 	componentDidMount() {
-		if(!this.state.val) {
-			console.log(packageJson.version);
+		console.log(packageJson.version);
+		const { history, session } = this.props;
+		if (!this.state.loaded) {
+			history.push(`/`);
 		}
-
-		Sockets.socketInit((err, timestamp) => this.setState({ 
-			timestamp 
-		}));
-		Sockets.readRoomUsers((roomUsers, userName) =>{
-			this.readRoomUsers(roomUsers, userName)
-		});
-		
-		
-
-		Sockets.readMessage((message, theUser) =>{ 
-			var foundIndex = this.state.roomUsers.findIndex(x => x.id == theUser);
-			this.state.roomUsers[foundIndex].vote = message
-			this.forceUpdate();
-		});
 	}
-
-	readRoomUsers = (roomUsers, userName) => {
-		const updateArr = [];
-			
-		roomUsers.map((user) => {
-			updateArr.push({
-				id: user,
-				userName,
-				vote: ''
-			});
-		})
-
-		this.setState({ 
-			roomUsers: updateArr,
-		});
-	}
-
 	
-	emitOnClick = (numberVal) => {
-		console.log(numberVal)
-		console.log(this.state.roomUsers)
-		console.log(this.props.session.sessionId)
-		// const dosPeepsMassage = document.getElementById('m').value;
-		const demRooms = document.getElementById('room').value;
-		Sockets.sendMessage(numberVal, demRooms);
-		
-		var foundIndex = this.state.roomUsers.findIndex(x => x.id == this.props.session.sessionId);
-		this.state.roomUsers[foundIndex].vote = numberVal
-		this.forceUpdate();
 
-		// const fullMessage = `${datUser}: ${dosPeepsMassage}`;
-		// this.setState({ 
-		// 	messageArray: [...this.state.messageArray, fullMessage] 
-		// });
+	componentDidUpdate(props) {
+		const { session, history } = this.props;
+		if (props.session.room !== session.room) {
+			if (session.room !== '') {
+				history.push(`/room/${session.room}`);
+			}
+		}
 	}
 
-	joinTheRoom = () => {
-		const demRooms = document.getElementById('room').value;
-		Sockets.joinRoom(demRooms, this.props.session.userName);
-	}
-
-	showVotes = () => {
-		this.setState({ 
-			showVotes: !this.state.showVotes,
-		});
-	}
-
-	setUserName = () => {
+	logout = () => {
 		const { dispatch } = this.props;
-		const name = document.getElementById('username').value;
-		
-		dispatch(sessionActions.updateUserName(name));
+		dispatch(sessionActions.logout());
 	}
 
 	render() {
 		const { session } = this.props;
 		return (
 			<div className="site-wrapper">
-				<div className="col-xs-6">
-					<h1>Hello {session.userName}</h1>
-				</div>
-
-				<div className="col-xs-6">
-					<input id="room"  placeholder="room"/>
-					<button
-						onClick={this.joinTheRoom}
-					>
-						Join the room
-					</button>
-				</div>
-				{(session.userName === '') && (
-					<div className="col-xs-6">
-						<input id="username" placeholder="username" />
-						<button
-							onClick={this.setUserName}
-						>
-							Set Username
-						</button>
-					</div>
-				)}
-				<Cards emitOnClick={this.emitOnClick} />
-				
-				<button
-							onClick={this.showVotes}
-						>
-							show votes
-						</button>
-				<ul className="card-list col-xs-12">
-				{
-						this.state.roomUsers.map(roomUser => {
-							return (
-								 <li>
-								 	<Card cardName={roomUser.userName} cardReady={(roomUser.vote) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
-								 </li>
-							)
-						})
-					}
-				</ul>
-				{/* <Index /> */}
+				<Header userName={session.userName} logout={this.logout} />
+				<Switch>
+					<Route exact path="/room/:id" component={Room} />
+					<Route exact path="/" component={Index} />
+				</Switch>
 			</div>
 		);
 	}
