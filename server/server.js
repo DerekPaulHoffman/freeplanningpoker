@@ -9,6 +9,7 @@ io.on('connection', (socket) => {
   // once a client has connected, we expect to get a ping from them saying what room they want to join
   socket.on('room', function(room) {
     console.log("joining room: " + room);
+    console.log("Client Id: " + socket.id);
     socket.join(room);
     io.in(room).clients((error, clients) => {
       if (error) throw error;
