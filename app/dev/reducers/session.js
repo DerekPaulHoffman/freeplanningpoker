@@ -1,28 +1,18 @@
 import {
-	UPDATE_PAGE_VAL,
+	UPDATE_USER_NAME,
 } from 'Actions/session.js';
 
 const initialState = {
-	newSession: true,
-	page: 'landing',
-	user: {
-		firstName: '',
-		lastName: '',
-		address1: '',
-		address2: '',
-		city: '',
-		state: '',
-		zip: '',
-		email: '',
-	},
+	userName: '',
 };
 
 const sessionReducer = (state, action) => {
+	console.log(state, action)
 	switch (action.type) {
-		case UPDATE_PAGE_VAL: {
+		case UPDATE_USER_NAME: {
 			return {
 				...state,
-				page: action.page,
+				userName: action.userName,
 			};
 		}
 		default:

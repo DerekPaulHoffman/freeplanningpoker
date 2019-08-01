@@ -41,6 +41,7 @@ class App extends Component {
 		this.state = {
 			val: false,
 			timestamp: 'no timestamp yet',
+			userName: props.session.userName,
 			messageArray:[],
 		};
 
@@ -67,7 +68,7 @@ class App extends Component {
 	emitOnClick = () => {
 		const dosPeepsMassage = document.getElementById('m').value;
 		const demRooms = document.getElementById('room').value;
-		const datUser = document.getElementById('username').value;
+		const datUser = this.props.session.userName;
 		Sockets.sendMessage(dosPeepsMassage, demRooms, datUser);
 		this.setState({ 
 			messageArray: [...this.state.messageArray, 'User:' + datUser + " Message:" + dosPeepsMassage] 
@@ -82,6 +83,7 @@ class App extends Component {
 	setUserName = () => {
 		const { dispatch } = this.props;
 		const name = document.getElementById('username').value;
+		
 		dispatch(sessionActions.updateUserName(name));
 	}
 
@@ -98,14 +100,16 @@ class App extends Component {
 						Join the room
 					</button>
 				</div>
-				<div className="col-xs-6">
-					<input id="username" placeholder="username" />
-					<button
-						onClick={this.setUserName}
-					>
-						Set Username
-					</button>
-				</div>
+				{(this.state.userName === '') && (
+					<div className="col-xs-6">
+						<input id="username" placeholder="username" />
+						<button
+							onClick={this.setUserName}
+						>
+							Set Username
+						</button>
+					</div>
+				)}
 				<div className="col-xs-6">
 					<input id="m" placeholder="message" />
 					<button
@@ -114,9 +118,6 @@ class App extends Component {
 							Send
 					</button>
 				</div>
-				<p className="App-intro">
-					This is the timer value: {this.state.timestamp}
-				</p>
 				<ul>
 					{
 						this.state.messageArray.map(message => {
@@ -124,7 +125,7 @@ class App extends Component {
 						})
 					}
 				</ul>
-				<Index />
+				{/* <Index /> */}
 			</div>
 		);
 	}

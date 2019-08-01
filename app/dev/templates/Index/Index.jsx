@@ -6,6 +6,10 @@ import * as Sockets from 'Utilities/api.js';
 
 import './Index.scss';
 
+function flipCard(val) {
+	// console.log(val);
+}
+
 class Index extends Component {
 	constructor(props) {
 		super(props);
@@ -19,7 +23,7 @@ class Index extends Component {
 	render() {
 		return (
 			<div className="card-list">
-			<div className="card" onclick="flipCard(this)">
+				<div className="card" onClick={flipCard(this)}>
 			  <div className="card__back">
 				<p>
 				  2
@@ -31,7 +35,7 @@ class Index extends Component {
 				</svg>
 			  </div>
 			</div>
-			<div className="card" onclick="flipCard(this)">
+				<div className="card" onClick={flipCard(this)}>
 			  <div className="card__back">
 				<p>
 				 3
@@ -43,7 +47,7 @@ class Index extends Component {
 				</svg>
 			  </div>
 			</div>
-			<div className="card" onclick="flipCard(this)">
+				<div className="card" onClick={flipCard(this)}>
 			  <div className="card__back">
 				<p>
 				  5

@@ -1,8 +1,8 @@
-export const UPDATE_PAGE_VAL = 'UPDATE_PAGE_VAL';
+export const UPDATE_USER_NAME = 'UPDATE_USER_NAME';
 
-export function updatePageVal(page) {
+export function updateUserName(userName) {
 	return {
-		type: UPDATE_PAGE_VAL,
-		page,
+		type: UPDATE_USER_NAME,
+		userName,
 	}
 }
