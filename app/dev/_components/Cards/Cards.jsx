@@ -24,13 +24,13 @@ class Cards extends Component {
 	render() {
 		return (
 			<ul className="card-list">
-				<Card number="1"></Card>
-				<Card number="2"></Card>
-				<Card number="3"></Card>
-				<Card number="5"></Card>
-				<Card number="8"></Card>
-				<Card number="13"></Card>
-				<Card number="20"></Card>
+				<Card number="1" emitOnClick={this.props.emitOnClick}></Card>
+				<Card number="2" emitOnClick={this.props.emitOnClick}></Card>
+				<Card number="3" emitOnClick={this.props.emitOnClick}></Card>
+				<Card number="5" emitOnClick={this.props.emitOnClick}></Card>
+				<Card number="8" emitOnClick={this.props.emitOnClick}></Card>
+				<Card number="13" emitOnClick={this.props.emitOnClick}></Card>
+				<Card number="20" emitOnClick={this.props.emitOnClick}></Card>
 		  	</ul>
 		);
 	}

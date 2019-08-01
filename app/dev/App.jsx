@@ -44,7 +44,7 @@ class App extends Component {
 			val: false,
 			timestamp: 'no timestamp yet',
 			messageArray:[],
-			roomUsers:[]
+			roomUsers:[],
 		};
 
 	}
@@ -69,32 +69,39 @@ class App extends Component {
 			timestamp 
 		}));
 		Sockets.readRoomUsers((roomUsers) =>{
-			console.log(roomUsers)
+			const updateArr = [];
+			
+			roomUsers.map((user) => {
+				updateArr.push({
+					id: user,
+					vote: ''
+				});
+			})
+
 			this.setState({ 
-				roomUsers: [...this.state.roomUsers, roomUsers] 
+				roomUsers: updateArr,
 			});
 		});
 		
 
 		Sockets.readMessage((message, theUser) =>{ 
-			const fullMessage = `${theUser}: ${message}`;
-			this.setState({ 
-				messageArray: [...this.state.messageArray, fullMessage] 
-			});
+			var foundIndex = this.state.roomUsers.findIndex(x => x.id == theUser);
+			this.state.roomUsers[foundIndex].vote = message
+			this.forceUpdate();
 		});
 	}
 
 	
-	emitOnClick = () => {
-		const dosPeepsMassage = document.getElementById('m').value;
+	emitOnClick = (numberVal) => {
+		console.log(numberVal)
+		// const dosPeepsMassage = document.getElementById('m').value;
 		const demRooms = document.getElementById('room').value;
-		const datUser = this.state.userName;
-		Sockets.sendMessage(dosPeepsMassage, demRooms, datUser);
+		Sockets.sendMessage(numberVal, demRooms);
 
-		const fullMessage = `${datUser}: ${dosPeepsMassage}`;
-		this.setState({ 
-			messageArray: [...this.state.messageArray, fullMessage] 
-		});
+		// const fullMessage = `${datUser}: ${dosPeepsMassage}`;
+		// this.setState({ 
+		// 	messageArray: [...this.state.messageArray, fullMessage] 
+		// });
 	}
 
 	joinTheRoom = () => {
@@ -143,15 +150,17 @@ class App extends Component {
 							Send
 					</button>
 				</div>
-				<Cards/>
+				<Cards emitOnClick={this.emitOnClick} />
 				<ul className="card-list">
-				users:{
+				{
 						this.state.roomUsers.map(roomUser => {
 							return (
+								<div>
+								<p>User: {roomUser.user}</p>
 								<li>
-									<p>roomUser: {roomUser}</p>
-									<Card/>
+									<Card number={roomUser.vote}/>
 								</li>
+								</div>
 							)
 						})
 					}

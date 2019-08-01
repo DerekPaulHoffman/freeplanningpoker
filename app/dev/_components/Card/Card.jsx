@@ -22,7 +22,7 @@ class Card extends Component {
     
 	render() {
 		return (
-			<li>
+			<li onClick={() => this.props.emitOnClick(this.props.number)}>
 				{this.props.number}
 		  	</li>
 		);
