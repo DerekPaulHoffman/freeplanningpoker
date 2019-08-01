@@ -51,8 +51,8 @@ class App extends Component {
 	
 	componentWillUpdate() {
 		const { session, dispatch } = this.props;
-		if(session.sessionId === '') {
-			const sessionId = Sockets.getSessionId();
+		const sessionId = Sockets.getSessionId();
+		if (session.sessionId === '' || session.sessionid !== sessionId) {
 			dispatch(sessionActions.updateSessionId(sessionId));
 		}
 
