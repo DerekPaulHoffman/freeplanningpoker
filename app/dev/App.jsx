@@ -49,9 +49,13 @@ class App extends Component {
 	
 	}
 	componentDidMount() {
+		const datUser = this.state.userName;
+		
+		
 		if(!this.state.val) {
 			console.log(packageJson.version);
 		}
+
 
 		Sockets.socketInit((err, timestamp) => this.setState({ 
 			timestamp 
@@ -61,10 +65,10 @@ class App extends Component {
 		}));
 		
 
-		Sockets.readMessage((message, datUser) =>{ 
-			console.log('poop123' + message);
+		Sockets.readMessage((message) =>{ 
+			const fullMessage = `${datUser}: ${message}`;
 			this.setState({ 
-			messageArray: [...this.state.messageArray, 'User:' +datUser + " Message:" + message] 
+				messageArray: [...this.state.messageArray, fullMessage] 
 			});
 		});
 	}
@@ -73,10 +77,12 @@ class App extends Component {
 	emitOnClick = () => {
 		const dosPeepsMassage = document.getElementById('m').value;
 		const demRooms = document.getElementById('room').value;
-		const datUser = this.props.session.userName;
+		const datUser = this.state.userName;
 		Sockets.sendMessage(dosPeepsMassage, demRooms, datUser);
+
+		const fullMessage = `${datUser}: ${dosPeepsMassage}`;
 		this.setState({ 
-			messageArray: [...this.state.messageArray, dosPeepsMassage] 
+			messageArray: [...this.state.messageArray, fullMessage] 
 		});
 	}
 

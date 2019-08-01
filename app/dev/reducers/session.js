@@ -7,7 +7,6 @@ const initialState = {
 };
 
 const sessionReducer = (state, action) => {
-	console.log(state, action)
 	switch (action.type) {
 		case UPDATE_USER_NAME: {
 			return {
