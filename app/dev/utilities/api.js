@@ -3,6 +3,9 @@ const  socket = openSocket('http://ec2-13-59-76-90.us-east-2.compute.amazonaws.c
 function socketInit(cb) {
   socket.on('timer', timestamp => cb(null, timestamp));
   socket.emit('socketInit', 1000);
+  socket.on('connect', function() {
+    console.log(socket.id);
+  });
 }
 
 function sendMessage(ourMessage, room, datUser) {
