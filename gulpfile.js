@@ -12,7 +12,7 @@ const gulpif = require('gulp-if');
 const packageJson = require('./package.json');
 
 // TODO: This needs to be updated depending on where you keep your secrets file.
-const AWS_SECRET = require('../_config/aws-secrets.json');
+const AWS_SECRET = require('../_config/planningpoker.json');
 
 // TODO: Change this based on the URL you want for the site.
 // * Example -> mybonuscenter/bizrateapp
