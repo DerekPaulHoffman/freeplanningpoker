@@ -76,6 +76,7 @@ class App extends Component {
 		const { session } = this.props;
 		return (
 			<div className="site-wrapper">
+				asdfasdfasdf
 				<Header userName={session.userName} logout={this.logout} />
 				<Switch>
 					<Route exact path="/room/:id" component={Room} />
