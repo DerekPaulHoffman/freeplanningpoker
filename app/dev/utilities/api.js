@@ -25,12 +25,20 @@ function readMessage(ourMessage, socketID) {
   socket.on('readMessage', ourMessage, socketID);
 }
 
-function joinRoom(room, userName) {
-  socket.emit('room', room, userName);
-}
-function readRoomUsers(users, userName) {
-  console.log("readRoomUsers", users);
-  socket.on('readRoomUsers', users, userName);
+function sendUsername(userName) {
+  socket.emit('sendUsername', userName);
 }
 
-export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId }
+function joinRoom(room) {
+  socket.emit('room', room);
+}
+function getRoom(room) {
+  console.log('getroom', room)
+  socket.emit('getroom', room);
+}
+function readRoomUsers(users) {
+  console.log("readRoomUsers API", users);
+  socket.on('readRoomUsers', users);
+}
+
+export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId, sendUsername, getRoom }

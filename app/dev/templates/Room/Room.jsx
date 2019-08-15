@@ -28,16 +28,6 @@ class Room extends Component {
         Sockets.joinRoom(roomId);
     }
 
-
-    componentWillUpdate() {
-        const { session, dispatch } = this.props;
-        const sessionId = Sockets.getSessionId();
-        if (session.sessionId !== sessionId) {
-            dispatch(sessionActions.updateSessionId(sessionId));
-            this.readRoomUsers([sessionId])
-        }
-    }
-
     componentDidMount() {
         Sockets.readRoomUsers((roomUsers) => {
             this.readRoomUsers(roomUsers)
@@ -53,27 +43,16 @@ class Room extends Component {
     }
 
     readRoomUsers = (roomUsers) => {
-        const updateArr = [];
         console.log('readRoomUsers', roomUsers);
-        roomUsers.map((user) => {
-            updateArr.push({
-                id: user,
-                vote: ''
-            });
-        })
 
         this.setState({
-            roomUsers: updateArr,
+            roomUsers: roomUsers,
         });
     }
 
 
     emitOnClick = (numberVal) => {
         Sockets.sendMessage(numberVal, this.props.session.room);
-
-        var foundIndex = this.state.roomUsers.findIndex(x => x.id == this.props.session.sessionId);
-        this.state.roomUsers[foundIndex].vote = numberVal
-        this.forceUpdate();
     }
 
     showVotes = () => {
@@ -102,7 +81,7 @@ class Room extends Component {
                                 <div key={index + 1}>
                                     <p>User: {roomUser.id}</p>
                                     <li>
-                                        <Card cardName={roomUser.userName} cardReady={(roomUser.vote) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
+                                        <Card cardName={roomUser.userName} cardReady={(roomUser.message) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
                                     </li>
                                 </div>
                             )

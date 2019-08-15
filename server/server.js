@@ -1,26 +1,25 @@
 const io = require('socket.io')();
-
 let roomsDB = {};
 io.on('connection', (socket) => {
   let username = 'Anonymous';
   let usersRoom = '';
   socket.emit('connect', socket.id);
-  socket.on('socketInit', (interval) => {
-    console.log('client is subscribing to timer with interval ', interval);
-    setInterval(() => {
-      socket.emit('timer', new Date());
-    }, interval);
+  socket.on('sendUsername', function(incommingUserName) {
+      console.log('setUsername to: ', incommingUserName);
+      username = incommingUserName;
   });
   // once a client has connected, we expect to get a ping from them saying what room they want to join
   socket.on('room', function(room) {
     console.log("joining room: " + room);
     console.log("Client Id: " + socket.id);
+    console.log("Username: " + username);
     socket.join(room);
     usersRoom = room;
     if(roomsDB[room]){
       if(checkSessionId(socket.id, room)){
          console.log(username + ' already in room ' + room);
       } else {
+        console.log('Room ' + room +' exists set username: ' + username);
         roomsDB[room].push({
           userName: username,
           sessionId: socket.id,
@@ -28,6 +27,7 @@ io.on('connection', (socket) => {
         });
       }
     } else {
+      console.log('New Room ' + room +' set username: ' + username);
       roomsDB[room] = [];
       roomsDB[room].push({
         userName: username,
@@ -36,20 +36,23 @@ io.on('connection', (socket) => {
       });
     }
     //Send out
-    socket.broadcast.in(room).emit('readRoomUsers', roomsDB[room]);
-    // io.in(room).clients((error, clients) => {
-    //   if (error) throw error;
-    //   console.log(clients);
-    //   console.log(room)
-    //   io.in(room).emit('readRoomUsers', clients, userName);
-    // });
-    // var clients = io.sockets.clients(room);
+    for(person in roomsDB[room]) {
+      console.log(roomsDB[room][person]);
+    }
+    io.in(room).emit('readRoomUsers', roomsDB[room]);
+  });
+  socket.on('getroom', function(room){
+    console.log('getroomserver', room)
+    io.in(room).emit('readRoomUsers', roomsDB[room]);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected from room' + usersRoom);
+    console.log('usersocket.id' + socket.id);
     if(roomsDB[usersRoom]){
+      console.log("found room:"+ usersRoom);
       for (user in roomsDB[usersRoom]) {
-        if(user.sessionId === socket.id) {
+      console.log('roomsDB[usersRoom][person].sessionId' + roomsDB[usersRoom][person].sessionId);
+        if(roomsDB[usersRoom][person].sessionId === socket.id) {
           console.log('splice out found sessionId');
           roomsDB[usersRoom].splice(user, 1);          
         }
@@ -63,10 +66,15 @@ io.on('connection', (socket) => {
        console.log('problem with room:' + usersRoom, roomsDB);
     }
   });
-  socket.on('readMessage', (newMessage, room) => {
+  socket.on('readMessage', (newMessage) => {
     console.log("server chat message: ", newMessage)
-    console.log("server chat room: ", room)
-    io.in(room).emit('readMessage', newMessage, socket.id);
+    console.log("server chat room: ", usersRoom)
+    for (user in roomsDB[usersRoom]) {
+        if(roomsDB[usersRoom][person].sessionId === socket.id) {
+          roomsDB[usersRoom][person].message = newMessage;
+        }
+      }
+    io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
   });
 });
 

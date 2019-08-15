@@ -21,7 +21,7 @@ class Index extends Component {
 		const { dispatch } = this.props;
 		const name = document.getElementById('username').value;
 		dispatch(sessionActions.updateUserName(name));
-
+		Sockets.sendUsername(name);
 	}
 
 	joinRoom = () => {
