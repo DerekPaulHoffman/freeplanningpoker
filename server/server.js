@@ -18,8 +18,6 @@ io.on('connection', (socket) => {
       console.log(room)
       io.in(room).emit('readRoomUsers', clients, userName);
     });
-    // var clients = io.sockets.clients(room);
-    // socket.broadcast.in(room).emit('readRoomUsers',clients);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected');
