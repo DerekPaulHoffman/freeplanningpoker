@@ -8,6 +8,7 @@ import withGracefulUnmount from 'react-graceful-unmount';
 import configureStore from 'Store/configureStore';
 
 import Header from 'Components/Header/Header.jsx';
+import Modal from 'Components/Modal/Modal.jsx';
 
 import Index from 'Templates/Index/Index.jsx';
 import Room from 'Templates/Room/Room.jsx';
@@ -48,13 +49,14 @@ class App extends Component {
 	componentDidMount() {
 		console.log(packageJson.version);
 		const { history, session } = this.props;
-		if (!this.state.loaded) {
-			history.push(`/`);
-		}
 
 		Sockets.socketInit((err, timestamp) => this.setState({
 			timestamp
 		}));
+
+		if(session.userName === '') {
+			this.renderUserModal();
+		}
 	}
 	
 
@@ -67,6 +69,10 @@ class App extends Component {
 		}
 	}
 
+	renderUserModal = () => {
+
+	}
+
 	logout = () => {
 		const { dispatch } = this.props;
 		dispatch(sessionActions.logout());
@@ -76,12 +82,14 @@ class App extends Component {
 		const { session } = this.props;
 		return (
 			<div className="site-wrapper">
-				asdfasdfasdf
 				<Header userName={session.userName} logout={this.logout} />
 				<Switch>
 					<Route exact path="/room/:id" component={Room} />
 					<Route exact path="/" component={Index} />
 				</Switch>
+				<Modal 
+					type="user"
+				/>
 			</div>
 		);
 	}
