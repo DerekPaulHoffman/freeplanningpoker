@@ -54,7 +54,7 @@ class Room extends Component {
 
     readRoomUsers = (roomUsers) => {
         const updateArr = [];
-
+        console.log('readRoomUsers', roomUsers);
         roomUsers.map((user) => {
             updateArr.push({
                 id: user,
