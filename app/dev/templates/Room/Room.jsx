@@ -79,10 +79,7 @@ class Room extends Component {
                         this.state.roomUsers.map((roomUser, index) => {
                             return (
                                 <div key={index + 1}>
-                                    <p>User: {roomUser.id}</p>
-                                    <li>
-                                        <Card cardName={roomUser.userName} cardReady={(roomUser.message) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
-                                    </li>
+                                    <Card cardName={roomUser.userName} cardReady={(roomUser.message) != '' && 'readyToFlip'} className={(roomUser.vote && this.state.showVotes) != '' && 'card--flipped'} number={roomUser.vote}/>
                                 </div>
                             )
                         })

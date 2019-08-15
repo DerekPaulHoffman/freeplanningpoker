@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
       });
     }
     //Send out
-    for(person in roomsDB[room]) {
-      console.log(roomsDB[room][person]);
+    for(user in roomsDB[room]) {
+      console.log(roomsDB[room][user]);
     }
     io.in(room).emit('readRoomUsers', roomsDB[room]);
   });
@@ -51,8 +51,8 @@ io.on('connection', (socket) => {
     if(roomsDB[usersRoom]){
       console.log("found room:"+ usersRoom);
       for (user in roomsDB[usersRoom]) {
-      console.log('roomsDB[usersRoom][person].sessionId' + roomsDB[usersRoom][person].sessionId);
-        if(roomsDB[usersRoom][person].sessionId === socket.id) {
+      console.log('roomsDB[usersRoom][user].sessionId' + roomsDB[usersRoom][user].sessionId);
+        if(roomsDB[usersRoom][user].sessionId === socket.id) {
           console.log('splice out found sessionId');
           roomsDB[usersRoom].splice(user, 1);          
         }
@@ -69,9 +69,12 @@ io.on('connection', (socket) => {
   socket.on('readMessage', (newMessage) => {
     console.log("server chat message: ", newMessage)
     console.log("server chat room: ", usersRoom)
+    console.log("socket.id: ", socket.id)
+    console.log(roomsDB[usersRoom])
     for (user in roomsDB[usersRoom]) {
-        if(roomsDB[usersRoom][person].sessionId === socket.id) {
-          roomsDB[usersRoom][person].message = newMessage;
+      console.log("roomsDB[usersRoom][person].sessionId: ", roomsDB[usersRoom][user].sessionId)
+        if(roomsDB[usersRoom][user].sessionId === socket.id) {
+          roomsDB[usersRoom][user].message = newMessage;
         }
       }
     io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
