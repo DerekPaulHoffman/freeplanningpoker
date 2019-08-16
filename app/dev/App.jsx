@@ -43,12 +43,7 @@ class App extends Component {
 			showRoomModal: (session.room === '' && session.userName !== ''),
 		}
 	}
-
-	componentWillMount() {
-		const { dispatch } = this.props;
-		dispatch(sessionActions.clearRoomState());
-	}
-
+	
 	componentDidMount() {
 		console.log(packageJson.version);
 		const { history, session } = this.props;
@@ -100,7 +95,6 @@ class App extends Component {
 	render() {
 		const { showUserModal, showRoomModal } = this.state;
 		const { session } = this.props;
-		
 		return (
 			<div className="site-wrapper">
 				<Header userName={session.userName} logout={this.logout} />
