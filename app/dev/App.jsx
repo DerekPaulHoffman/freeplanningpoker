@@ -10,7 +10,6 @@ import configureStore from 'Store/configureStore';
 import Header from 'Components/Header/Header.jsx';
 import Modal from 'Components/Modal/Modal.jsx';
 
-import Index from 'Templates/Index/Index.jsx';
 import Room from 'Templates/Room/Room.jsx';
 
 import './styles/Common.scss';
@@ -35,9 +34,13 @@ function Root() {
 
 class App extends Component {
 	constructor(props) {
-		super(props);	
+		super(props);
+		const { session } = this.props;
+
 		this.state = {
 			loaded: false,
+			showUserModal: false,
+			showRoomModal: (session.room === '' && session.userName !== ''),
 		}
 	}
 
@@ -59,38 +62,65 @@ class App extends Component {
 			this.renderUserModal();
 		}
 	}
-	
-
-	componentDidUpdate(props) {
-		const { session, history } = this.props;
-		if (props.session.room !== session.room) {
-			if (session.room !== '') {
-				history.push(`/room/${session.room}`);
-			}
-		}
-	}
-
-	renderUserModal = () => {
-
-	}
 
 	logout = () => {
 		const { dispatch } = this.props;
 		dispatch(sessionActions.logout());
 	}
 
+	renderUserModal = () => {
+		this.setState({
+			showUserModal: true,
+		})
+	}
+
+
+	setUserName = async () => {
+		const { dispatch, session } = this.props;
+		const name = document.getElementById('username').value;
+		await dispatch(sessionActions.updateUserName(name));
+		if(session.room === '') {
+			this.setState({
+				showRoomModal: true,
+			});
+		}
+	}
+
+	setRoomValue = async () => {
+		const { history, dispatch } = this.props;
+		const room = document.getElementById('room').value;
+		await dispatch(sessionActions.enterRoom(room));
+		history.push(`/room/${room}`);
+		this.setState({
+			showRoomModal: false,
+		})
+	}
+
+
 	render() {
+		const { showUserModal, showRoomModal } = this.state;
 		const { session } = this.props;
+		
 		return (
 			<div className="site-wrapper">
 				<Header userName={session.userName} logout={this.logout} />
 				<Switch>
 					<Route exact path="/room/:id" component={Room} />
-					<Route exact path="/" component={Index} />
 				</Switch>
-				<Modal 
-					type="user"
-				/>
+				{(showUserModal && session.userName === '') && (
+					<Modal 
+						type="user"
+						action={this.setUserName}
+						close={this.closeModal}
+					/>
+				)}
+				{(showRoomModal) && (
+					<Modal 
+						type="room"
+						action={this.setRoomValue}
+						close={this.closeModal}
+					/>
+				)}
 			</div>
 		);
 	}
