@@ -15,12 +15,26 @@ const App = () => {
 
   useEffect(() => {
     Sockets.socketInit((err, timestamp) => {
+      console.log(timestamp);
       setTimestamp(timestamp);
     });
   }, [timestamp]);
 
-  const createNewRoom = () => {
-    console.log('here');
+  const createNewRoom = (userName) => {
+    console.log('create new room', userName);
+
+    // Gotta rng a room id and then send both the username and room number to the socket
+
+    // Sockets.sendUsername(userName);
+    setShowModal(false);
+  }
+
+  const joinExistingRoom = async (roomId, userName) => {
+    console.log(roomId, userName);
+    // I'm not sure yet how to set my self as a certain username in a room
+    await Sockets.sendUsername(userName);
+    await Sockets.joinRoom(roomId);
+    setShowModal(false);
   }
 
   return (
@@ -30,6 +44,7 @@ const App = () => {
         <Portal>
           <UserInfoModal 
             createNewRoom={createNewRoom}
+            joinExistingRoom={joinExistingRoom}
           />
         </Portal>
       )}

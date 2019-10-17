@@ -8,21 +8,27 @@ import useFormLogic from '../../hooks/useFormLogic';
 import './UserInfoModal.scss';
 
 const UserInfoModal = (props) => {
+    const { createNewRoom, joinExistingRoom } = props;
+
     const [joinCustomRoom, setJoinCustomRoom] = useState(false);
     const { inputs, handleFormChange } = useFormLogic();
     const toggleCustomRoom = () => {
-        console.log(inputs.roomId);
-        if(inputs.userName !== '' && inputs.roomId !== '') {
-            // JOIN A ROOM
-            console.log('join room', inputs.roomId);
+        if (inputs.userName !== '' && !joinCustomRoom) {
+            setJoinCustomRoom(!joinCustomRoom);
         }
 
-        if(inputs.userName !== '' && !joinCustomRoom) {
-            setJoinCustomRoom(!joinCustomRoom);
+        if(inputs.userName !== '' && inputs.roomId !== '') {
+            // JOIN A ROOM
+            joinExistingRoom(inputs.roomId, inputs.userName);
+        }
+    }
+
+    const sendUserNameUp = () => {
+        if(inputs.userName !== '') {
+            createNewRoom(inputs.userName);
         }
     }
     // If there are stored values for User Name and Room Number, things will change
-    const { createNewRoom } = props;
     return (
         <div id="user-info-modal">
             <h2>Who are you?</h2>
@@ -51,12 +57,13 @@ const UserInfoModal = (props) => {
             >
                 Join Room
             </Button>
-            <Button
+            {/* The below button is not ready */}
+            {/* <Button
                 id="new-room"
-                onClick={createNewRoom}
+                onClick={sendUserNameUp}
             >
                 Create Room
-            </Button>            
+            </Button>             */}
         </div>
     )
 }
