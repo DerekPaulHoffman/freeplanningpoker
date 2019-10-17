@@ -10,7 +10,8 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
-    "typescript": "3.6.4"
+    "typescript": "3.6.4",
+    "webpack": "^4.41.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,6 +35,11 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.12.0"
+    "@typescript-eslint/eslint-plugin": "^2.4.0",
+    "@typescript-eslint/parser": "^2.4.0",
+    "eslint": "^6.5.1",
+    "node-sass": "^4.12.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   }
 }

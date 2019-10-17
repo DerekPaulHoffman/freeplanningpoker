@@ -1,6 +1,6 @@
 import openSocket from 'socket.io-client';
 
-import { localEnvCheck } from 'Utilities/env.js';
+import { localEnvCheck } from './env.js';
 
 const socket = (localEnvCheck()) ? openSocket('http://localhost:8000') : openSocket('http://ec2-13-59-76-90.us-east-2.compute.amazonaws.com:8000');
 let sessionId = '';
