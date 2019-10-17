@@ -1,17 +1,16 @@
 import React from 'react';
 
-import useFormLogic from '../../hooks/useFormLogic';
-
-const Input = ({ inputType, placeholder, name}) => {
-    const { inputs, handleFormChange } = useFormLogic();
+const Input = ({ inputType, placeholder, name, value, handleFormChange }) => {
     return (
         <>
+            <label htmlFor={name} />
             <input 
                 type={inputType} 
-                name={name} 
+                name={name}
+                id={name} 
                 placeholder={placeholder} 
                 onChange={handleFormChange} 
-                value={inputs[name]}
+                value={value}
                 required 
             />
         </>

@@ -19,12 +19,18 @@ const App = () => {
     });
   }, [timestamp]);
 
+  const createNewRoom = () => {
+    console.log('here');
+  }
+
   return (
     <div className="App">
       <Header />
       {(showModal) && (
         <Portal>
-          <UserInfoModal />
+          <UserInfoModal 
+            createNewRoom={createNewRoom}
+          />
         </Portal>
       )}
     </div>

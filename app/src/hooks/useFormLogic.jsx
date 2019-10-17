@@ -3,7 +3,7 @@ import { useState } from 'react';
 const useFormLogic = () => {
     const [inputs, setInputs] = useState({
         userName: '',
-        room: '',
+        roomId: '',
     });
 
     const handleFormChange = (event) => {
