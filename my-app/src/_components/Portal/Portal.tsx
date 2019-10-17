@@ -1,6 +1,8 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import './Portal.scss';
+
 export interface PortalProps {
     children?: React.ReactNode;
 }
