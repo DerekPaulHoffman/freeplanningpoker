@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Header from './_components/Header/Header';
 import Portal from './_components/Portal/Portal';
 import UserInfoModal from './_components/UserInfoModal/UserInfoModal';
+import CardHolder from "./_components/CardHolder/CardHolder";
 
 // Import the 
 import * as Sockets from './utilities/api.js';
@@ -48,6 +49,7 @@ const App = () => {
           />
         </Portal>
       )}
+      <CardHolder />
     </div>
   );
 }
