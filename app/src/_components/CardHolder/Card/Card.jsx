@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import useWindowDimensions from "../../../hooks/getWindowDimensions";
 
@@ -9,6 +9,10 @@ const Card = (props) => {
   const [dragging, setDragging] = useState(false);
   const { height } = useWindowDimensions();
 
+  useEffect(() => {
+    setOriginalPosition({ x: props.xPos, y: props.yPos });
+  }, []);
+
   const handleDrag = (e, ui) => {
     setDragging(true);
     props.draggedState(true);
@@ -18,18 +22,18 @@ const Card = (props) => {
   };
 
   const onStop = (e) => {
-    console.log(e.changedTouches[0].clientY);
     setDragging(false);
-    if (e.changedTouches[0].clientY < (height * .6)){
-      console.log("above")
-      //setOriginalPosition(null);
-      setOriginalPosition({ x: props.xPos, y: props.yPos });
-    } else {
-      console.log("reset");
-      setOriginalPosition({ x: props.xPos, y: props.yPos });
-    }
-    props.resetStates(props.myIndex);
     props.draggedState(false);
+    setOriginalPosition({ x: props.xPos, y: props.yPos });
+    console.log(e);
+    if (e.type === 'touchend') {
+      console.log(e.changedTouches);
+      console.log(e.changedTouches[0].clientY);
+      if (e.changedTouches[0].clientY < height * 0.7) {
+        console.log("above");
+        props.resetStates(props.myIndex);
+      }
+    }
   };
 
   return (
