@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+
+import Header from './_components/Header/Header';
+import Portal from './_components/Portal/Portal';
+import UserInfoModal from './_components/UserInfoModal/UserInfoModal';
 
 // Import the 
 import * as Sockets from './utilities/api.js';
@@ -8,6 +11,7 @@ import './styles/App.scss';
 
 const App: React.FC = () => {
   const [timestamp, setTimestamp] = useState(0);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
 		Sockets.socketInit((err: string, timestamp: React.SetStateAction<number>) => {
@@ -17,21 +21,12 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {timestamp}
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      {(showModal) && (
+        <Portal>
+          <UserInfoModal />
+        </Portal>
+      )}
     </div>
   );
 }
