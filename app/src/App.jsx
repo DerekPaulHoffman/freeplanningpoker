@@ -41,15 +41,18 @@ const App = () => {
   return (
     <div className="App">
       <Header />
+      
+      <CardHolder />
       {(showModal) && (
         <Portal>
-          <UserInfoModal 
-            createNewRoom={createNewRoom}
-            joinExistingRoom={joinExistingRoom}
-          />
+          <div id="overlay">
+            <UserInfoModal 
+              createNewRoom={createNewRoom}
+              joinExistingRoom={joinExistingRoom}
+            />
+          </div>
         </Portal>
       )}
-      <CardHolder />
     </div>
   );
 }
