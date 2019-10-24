@@ -1,3 +1,4 @@
+@import '../../styles/Config.scss';
 
 #overlay {
     position: absolute;
@@ -26,12 +27,12 @@
         .inner-container {
             width: 50%;
             h1 {
-                color: #d23d19d1
+                color: $orange;
             }
             hr {
                 margin: .5rem 0;
                 outline: none;
-                border: 1px solid #d23d19d1;
+                border: 1px solid $orange;
                 width: 100%;
             }
         }

@@ -1,3 +1,5 @@
+@import '../../styles/Config.scss';
+
 input { 
     background: none;
     outline: none;
@@ -13,9 +15,9 @@ input {
     padding: .5rem 0;
     text-align: center;
     background: #555;
-    color: #fefefe;
-    border: 1px solid #ccc;
+    color: $white;
+    border: 1px solid $lightgrey;
     &::placeholder {
-        color: #ccc;
+        color: $lightgrey;
     }
 }
