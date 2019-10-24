@@ -40,6 +40,9 @@
         font-size: 4vw;
         width: 100%;
     }
+    &.showReady{
+        background-color: green;
+    }
 }
 .playingSurface{
     li{
@@ -67,3 +70,33 @@ li{
     margin: 0;
     padding:0;
 }
+
+.flipped{
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+
+.cardasd{
+  width:100%;
+  height:100%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: all .5s linear;
+  transition: all .5s linear;
+  border-radius:10px;
+}
+.back {
+  overflow:hidden;
+  z-index:-1;
+  display: block;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+  position: absolute;
+  top:0;
+}
+.front, .back{
+  transition: all .5s linear;
+}
+
