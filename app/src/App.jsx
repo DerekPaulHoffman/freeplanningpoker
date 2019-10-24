@@ -21,7 +21,6 @@ const App = () => {
       console.log(timestamp);
       setTimestamp(timestamp);
     });
-    Sockets.joinRoom("1234");
   }, [timestamp]);
 
   const createNewRoom = (userName) => {

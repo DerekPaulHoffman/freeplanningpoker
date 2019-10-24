@@ -66,7 +66,7 @@ const UserInfoModal = (props) => {
                             name="roomId"
                             value={inputs.roomId}
                             handleFormChange={handleFormChange}
-                            maxLengt="4"
+                            maxLength="4"
                         />
                         <hr />
                         <Button
