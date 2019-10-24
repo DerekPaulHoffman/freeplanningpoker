@@ -71,10 +71,16 @@ const UserInfoModal = (props) => {
                         <hr />
                         <Button
                             className="info-modal"
+                            onClick={enterRoom}
+                        >
+                            Join Room
+                        </Button>
+                        <Button
+                            className="info-modal"
                             onClick={createNewRoom}
                         >
                             Create New Room
-                    </Button>
+                        </Button>
                     </>
                 )}
             </div>
