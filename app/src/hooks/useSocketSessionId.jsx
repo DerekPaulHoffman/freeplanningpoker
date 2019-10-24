@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import * as Sockets from '../../utilities/api.js';
+
 const useSocketSessionId = () => {
     
     const [socketSessionId, setSocketSessionId] = useState('');
