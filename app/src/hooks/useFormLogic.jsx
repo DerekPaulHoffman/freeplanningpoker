@@ -1,9 +1,13 @@
 import { useState } from 'react';
 
 const useFormLogic = () => {
+    const localUserName = localStorage.getItem('username');
+
+    const getRoomFromUrl = window.location.pathname.replace('/', '');
+
     const [inputs, setInputs] = useState({
-        userName: '',
-        roomId: '',
+        userName: localUserName ? localUserName : '',
+        roomId: getRoomFromUrl,
     });
 
     const handleFormChange = (event) => {

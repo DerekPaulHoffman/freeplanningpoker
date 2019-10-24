@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Input.scss';
+
 const Input = ({ inputType, placeholder, name, value, handleFormChange }) => {
     return (
         <>
