@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Input.scss';
 
-const Input = ({ inputType, placeholder, name, value, handleFormChange }) => {
+const Input = ({ inputType, placeholder, name, value, handleFormChange, maxLength }) => {
     return (
         <>
             <label htmlFor={name} />
@@ -13,6 +13,7 @@ const Input = ({ inputType, placeholder, name, value, handleFormChange }) => {
                 placeholder={placeholder} 
                 onChange={handleFormChange} 
                 value={value}
+                maxLength={maxLength}
                 required 
             />
         </>

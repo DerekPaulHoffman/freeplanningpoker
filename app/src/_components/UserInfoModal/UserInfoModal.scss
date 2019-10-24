@@ -23,5 +23,17 @@
         align-items: center;
         flex-direction: column;
         border-radius: 7px;
+        .inner-container {
+            width: 50%;
+            h1 {
+                color: #d23d19d1
+            }
+            hr {
+                margin: .5rem 0;
+                outline: none;
+                border: 1px solid #d23d19d1;
+                width: 100%;
+            }
+        }
     }
 }
