@@ -4,11 +4,13 @@ import Header from './_components/Header/Header';
 import Portal from './_components/Portal/Portal';
 import UserInfoModal from './_components/UserInfoModal/UserInfoModal';
 import CardHolder from "./_components/CardHolder/CardHolder";
+import PlayingSurface from "./_components/PlayingSurface/PlayingSurface";
 
 // Import the 
 import * as Sockets from './utilities/api.js';
 // Styles
 import './styles/App.scss';
+import './styles/Common.scss';
 
 const App = () => {
   const [timestamp, setTimestamp] = useState(0);
@@ -19,6 +21,7 @@ const App = () => {
       console.log(timestamp);
       setTimestamp(timestamp);
     });
+    Sockets.joinRoom("1234");
   }, [timestamp]);
 
   const createNewRoom = (userName) => {
@@ -53,6 +56,8 @@ const App = () => {
           </div>
         </Portal>
       )}
+      <PlayingSurface />
+      <CardHolder />
     </div>
   );
 }

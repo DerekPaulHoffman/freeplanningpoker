@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import useWindowDimensions from "../../../hooks/getWindowDimensions";
 
-import './Card.scss';
 
-const Card = (props) => {
+import Card from "../../Card/Card";
+
+import "./DraggableCard.scss";
+
+const DraggableCard = props => {
   const [originalPosition, setOriginalPosition] = useState(null);
   const [dragging, setDragging] = useState(false);
   const { height } = useWindowDimensions();
@@ -18,15 +21,14 @@ const Card = (props) => {
     props.draggedState(true);
   };
 
-  const onStart = () => {
-  };
+  const onStart = () => {};
 
-  const onStop = (e) => {
+  const onStop = e => {
     setDragging(false);
     props.draggedState(false);
     setOriginalPosition({ x: props.xPos, y: props.yPos });
     console.log(e);
-    if (e.type === 'touchend') {
+    if (e.type === "touchend") {
       console.log(e.changedTouches);
       console.log(e.changedTouches[0].clientY);
       if (e.changedTouches[0].clientY < height * 0.7) {
@@ -48,20 +50,17 @@ const Card = (props) => {
         onStop={onStop}
       >
         <div className="handle">
-          <div
-            style={{
-              transform: `rotate(${dragging ? 0 : props.roation}deg)`,
-              width: `${props.cardDimensions.width}px`,
-              height: `${props.cardDimensions.height}px`
-            }}
+          <Card
+            transform={`rotate(${dragging ? 0 : props.roation}deg)`}
+            width={`${props.cardDimensions.width}vw`}
+            height={`${props.cardDimensions.height}vw`}
             className={`card ${props.chosenState ? "chosen" : "notChosen"}`}
-          >
-            {props.cardNumber}
-          </div>
+            cardNumber={props.cardNumber}
+          />
         </div>
       </Draggable>
     </>
   );
-}
+};
 
-export default Card;
+export default DraggableCard;

@@ -5,7 +5,7 @@ import useWindowDimensions from '../../hooks/getWindowDimensions'
 import './CardHolder.scss';
 
 // Components
-import Card from './Card/Card';
+import DraggableCard from "./DraggableCard/DraggableCard";
 import Portal from "../Portal/Portal";
 
 
@@ -14,7 +14,7 @@ const CardHolder = () => {
   const [chosenIndex, setchosenIndex] = useState(-1);
   const [currentDraggedState, setcurrentDraggedState] = useState(false);
   const { height, width } = useWindowDimensions();
-  const cardDimensions = {width:2.25 * 30, height:3.5 * 30}
+  const cardDimensions = {width:2.25 * 10, height:3.5 * 10}
 
   const resetStates = (chosenIndex) => {
     setchosenIndex(chosenIndex);
@@ -25,32 +25,29 @@ const CardHolder = () => {
 
   return (
     <div className="cardHolder" id="cardHolder">
-      <p>
-        height:{height} width:{width}
-      </p>
       <div
         className={`${currentDraggedState ? "show" : "hide"} overlayPhantomCard`}
       >
         <div
           className="selectionCardBox"
           style={{
-            width: `${cardDimensions.width}px`,
-            height: `${cardDimensions.height}px`
+            width: `${cardDimensions.width}vw`,
+            height: `${cardDimensions.height}vw`
           }}
         ></div>
       </div>
       {fibonacci.map((cardNumber, index) => {
         return (
-          <Card
+          <DraggableCard
             cardNumber={cardNumber}
             resetStates={resetStates}
             draggedState={draggedState}
             chosenState={index === chosenIndex}
             myIndex={index}
-            xPos={((width - 50) / fibonacci.length) * index + 25}
+            xPos={((width - 50) / fibonacci.length) * index + 20}
             yPos={
               height -
-              200 +
+              120 +
               Math.abs((90 / (fibonacci.length - 1)) * index - 45) * 1
             }
             roation={(90 / (fibonacci.length - 1)) * index - 45}
