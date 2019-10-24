@@ -3,4 +3,16 @@
 #header {
     width: 100vw;
     text-align: center;
+    .top-header {
+        h1 {
+            font-weight: 600;
+            font-size: 20px;
+        }
+        padding: 1rem 0;
+    }
+
+    .sub-header {
+        display: flex;
+        justify-content: center;
+    }
 }

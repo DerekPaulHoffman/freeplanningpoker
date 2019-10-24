@@ -13,9 +13,9 @@ const PlayingSurface = (props) => {
   const cardDimensions = { width: 2.25 * 12, height: 3.5 * 12 };
 
   useEffect(() => {
-     Sockets.readRoomUsers(roomUsers => {
-       setRoomUsers(roomUsers);
-     });
+      Sockets.readRoomUsers(roomUsers => {
+        setRoomUsers(roomUsers);
+      });
   }, []);
 
   return (

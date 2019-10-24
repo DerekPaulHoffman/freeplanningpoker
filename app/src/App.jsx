@@ -6,15 +6,19 @@ import UserInfoModal from './_components/UserInfoModal/UserInfoModal';
 import CardHolder from "./_components/CardHolder/CardHolder";
 import PlayingSurface from "./_components/PlayingSurface/PlayingSurface";
 
-// Import the 
+// Hooks
+import useModalRequirements from './hooks/useModalRequirements';
+
+// APIs
 import * as Sockets from './utilities/api.js';
 // Styles
 import './styles/App.scss';
 import './styles/Common.scss';
 
 const App = () => {
-  const [timestamp, setTimestamp] = useState(0);
-  const [showModal, setShowModal] = useState(true);
+  const [timestamp, setTimestamp] = useState(0);  
+  const { showModal, setShowModal } = useModalRequirements();
+
 
   useEffect(() => {
     Sockets.socketInit((err, timestamp) => {
@@ -25,15 +29,12 @@ const App = () => {
 
   const createNewRoom = (userName) => {
     console.log('create new room', userName);
-
     // Gotta rng a room id and then send both the username and room number to the socket
-
     // Sockets.sendUsername(userName);
     setShowModal(false);
   }
 
   const joinExistingRoom = async (roomId, userName) => {
-    console.log(roomId, userName);
     // I'm not sure yet how to set my self as a certain username in a room
     await Sockets.sendUsername(userName);
     await Sockets.joinRoom(roomId);
@@ -49,8 +50,8 @@ const App = () => {
         <Portal>
           <div id="overlay">
             <UserInfoModal 
-              createNewRoom={createNewRoom}
               joinExistingRoom={joinExistingRoom}
+              createNewRoom={createNewRoom}
             />
           </div>
         </Portal>

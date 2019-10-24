@@ -3,16 +3,14 @@ import React, { useState, useEffect } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
-import useFormLogic from '../../hooks/useFormLogic';
-
 import './UserInfoModal.scss';
 
-const UserInfoModal = (props) => {
-    const { createNewRoom, joinExistingRoom } = props;
-    const [showUserNameInput, setUserNameInput] = useState(true);
-    const [showRoomInput, setRoomInput] = useState(false);
-    const { inputs, handleFormChange } = useFormLogic();
+import useFormLogic from '../../hooks/useFormLogic';
+import useModalRequirements from '../../hooks/useModalRequirements';
 
+const UserInfoModal = ({ joinExistingRoom, createNewRoom }) => {
+    const { showUserNameInput, setUserNameInput, showRoomInput, setRoomInput } = useModalRequirements();
+    const { inputs, handleFormChange } = useFormLogic();
     const toggleUserName = () => {
         // Sanitize the inputs
         if(inputs.userName.length > 0) {
@@ -31,10 +29,11 @@ const UserInfoModal = (props) => {
     }
 
     useEffect(() => {
-        if(inputs.userName !== '') {
-            toggleUserName();
+        if (inputs.roomId.length === 4 && !showUserNameInput) {
+            enterRoom();
         }
-    }, [])
+    }, []);
+
     // If there are stored values for User Name and Room Number, things will change
     return (
         <div id="user-info-modal">
