@@ -25,7 +25,7 @@ const Header = () => {
             <div className="top-header">
                 <h1>FREE PLANNING POKER</h1>
             </div>
-            <div className="sub-header row">
+            {/* <div className="sub-header row">
                 <div className="col-xs-3">
                     <Button
                         className="pill username"
@@ -54,7 +54,7 @@ const Header = () => {
                 <div className="col-xs-3">
 
                 </div>
-            </div>
+            </div> */}
         </header>
     )
 }
