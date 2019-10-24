@@ -9,24 +9,37 @@ import "./PlayingSurface.scss";
 
 const PlayingSurface = (props) => {
   const [roomUsers, setRoomUsers] = useState([]);
+  const [sessionId, setSessionId] = useState();
     
   const cardDimensions = { width: 2.25 * 12, height: 3.5 * 12 };
 
   useEffect(() => {
-      Sockets.readRoomUsers(roomUsers => {
-        setRoomUsers(roomUsers);
-      });
-  }, []);
+    Sockets.setSessionId(mySessionId => {
+      setSessionId(mySessionId);
+    });
+    Sockets.readRoomUsers(roomUsers => {
+       Sockets.getSessionId();
+      setRoomUsers(roomUsers);
+    });
+  }, [sessionId]);
+
 
   return (
       <>
         <ul className="playingSurface row">
           {
             roomUsers.map((roomUser, index) => {
+              console.log(roomUser.sessionId);
+              console.log(sessionId);
                 return (
                   <li
                     style={{
-                      height: `50vw`
+                      height: `50vw`,
+                      order: `${
+                        roomUser.sessionId === sessionId
+                          ? "0"
+                          : index + roomUsers.length
+                      }`
                     }}
                     className="col-xs-4"
                   >

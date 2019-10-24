@@ -9,20 +9,23 @@ function socketInit(cb) {
   socket.on('timer', timestamp => cb(null, timestamp));
   socket.emit('socketInit', 1000);
   socket.on('connect', () => {
-    console.log(" socket.id: " + socket.id)
+    console.log("connect socket.id: " + socket.id)
     sessionId = socket.id;
   });
 }
 
 function getSessionId() {
-  return sessionId;
+  socket.emit('getSessionId');
+}
+function setSessionId(ourMessage) {
+  socket.on('setSessionId', ourMessage);
 }
 
-function sendMessage(ourMessage) {
-  socket.emit('readMessage', ourMessage);
+function sendMessage(ourMessage, room) {
+  socket.emit('readMessage', ourMessage, room);
 }
-function readMessage(ourMessage, socketID) {
-  socket.on('readMessage', ourMessage, socketID);
+function readMessage(ourMessage) {
+  socket.on('readMessage', ourMessage);
 }
 
 function sendUsername(userName) {
@@ -41,4 +44,4 @@ function readRoomUsers(users) {
   socket.on('readRoomUsers', users);
 }
 
-export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId, sendUsername, getRoom }
+export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId, setSessionId, sendUsername, getRoom }

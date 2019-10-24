@@ -8,6 +8,10 @@ io.on('connection', (socket) => {
       console.log('setUsername to: ', incommingUserName);
       username = incommingUserName;
   });
+  socket.on('getSessionId', function () {
+    console.log('getSessionId', socket.id)
+    socket.emit('setSessionId', socket.id);
+  });
   // once a client has connected, we expect to get a ping from them saying what room they want to join
   socket.on('room', function(room) {
     console.log("joining room: " + room);
@@ -76,7 +80,7 @@ io.on('connection', (socket) => {
         if(roomsDB[usersRoom][user].sessionId === socket.id) {
           roomsDB[usersRoom][user].message = newMessage;
         }
-      }
+    }
     io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
   });
 });

@@ -57,7 +57,6 @@ const App = () => {
         </Portal>
       )}
       <PlayingSurface />
-      <CardHolder />
     </div>
   );
 }
