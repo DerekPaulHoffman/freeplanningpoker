@@ -18,8 +18,8 @@ function getSessionId() {
   return sessionId;
 }
 
-function sendMessage(ourMessage, room) {
-  socket.emit('readMessage', ourMessage, room);
+function sendMessage(ourMessage) {
+  socket.emit('readMessage', ourMessage);
 }
 function readMessage(ourMessage, socketID) {
   socket.on('readMessage', ourMessage, socketID);

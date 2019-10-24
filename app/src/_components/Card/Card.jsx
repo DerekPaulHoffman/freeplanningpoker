@@ -13,7 +13,7 @@ const Card = (props) => {
         }}
         className={props.className}
       >
-        <div>{props.cardNumber}</div>
+        <div className="cardNumber">{props.cardNumber}</div>
         <div className="cardName">{props.cardName}</div>
       </div>
     </>

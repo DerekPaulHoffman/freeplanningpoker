@@ -42,6 +42,19 @@
     }
 }
 
+.surfaceCard{
+    flex-direction: column;
+    justify-content: space-between;
+    .cardNumber{
+        align-items: center;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-size: 10vw;
+        width: 100%;
+    }
+}
+
 li{
     list-style-type: none;
     margin: 0;

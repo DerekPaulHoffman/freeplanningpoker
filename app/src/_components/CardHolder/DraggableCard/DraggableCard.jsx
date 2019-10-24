@@ -3,6 +3,9 @@ import Draggable from 'react-draggable';
 import useWindowDimensions from "../../../hooks/getWindowDimensions";
 
 
+//Sockets
+import * as Sockets from '../../../utilities/api.js';
+
 import Card from "../../Card/Card";
 
 import "./DraggableCard.scss";
@@ -34,6 +37,7 @@ const DraggableCard = props => {
       if (e.changedTouches[0].clientY < height * 0.7) {
         console.log("above");
         props.resetStates(props.myIndex);
+        Sockets.sendMessage(props.cardNumber);
       }
     }
   };

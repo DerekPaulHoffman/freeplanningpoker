@@ -20,7 +20,7 @@ const PlayingSurface = (props) => {
 
   return (
       <>
-        <ul className="card-list row">
+        <ul className="playingSurface row">
           {
             roomUsers.map((roomUser, index) => {
                 return (
@@ -36,7 +36,7 @@ const PlayingSurface = (props) => {
                       width={`${cardDimensions.width}vw`}
                       height={`${cardDimensions.height}vw`}
                       className={`card surfaceCard`}
-                      cardNumber={roomUser.vote}
+                      cardNumber={roomUser.message}
                       cardName={roomUser.userName}
                     />
                   </li>
