@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import * as Sockets from '../../utilities/api.js';
+import * as Sockets from '../utilities/api.js';
 
 const useSocketSessionId = () => {
     

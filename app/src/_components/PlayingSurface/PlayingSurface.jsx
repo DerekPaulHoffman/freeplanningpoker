@@ -5,7 +5,7 @@ import Card from "../Card/Card.jsx";
 //Sockets
 import * as Sockets from '../../utilities/api.js';
 
-import useSocketSessionId from '../hooks/useSocketSessionId';
+import useSocketSessionId from '../../hooks/useSocketSessionId';
 
 import "./PlayingSurface.scss";
 
