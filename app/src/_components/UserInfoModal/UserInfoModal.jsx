@@ -8,9 +8,10 @@ import './UserInfoModal.scss';
 import useFormLogic from '../../hooks/useFormLogic';
 import useModalRequirements from '../../hooks/useModalRequirements';
 
-const UserInfoModal = ({ joinExistingRoom, createNewRoom }) => {
+const UserInfoModal = ({ joinExistingRoom, createNewRoom, roomId }) => {
     const { showUserNameInput, setUserNameInput, showRoomInput, setRoomInput } = useModalRequirements();
     const { inputs, handleFormChange } = useFormLogic();
+    const [validRoom, setValidRoom] = useState(null);
     const toggleUserName = () => {
         // Sanitize the inputs
         if(inputs.userName.length > 0) {
@@ -24,67 +25,82 @@ const UserInfoModal = ({ joinExistingRoom, createNewRoom }) => {
         // Sanitize the inputs
         if(inputs.roomId.length === 4) {
             window.history.pushState(inputs.roomId, 'Free Planning Poker', `/${inputs.roomId}`);
-            joinExistingRoom(inputs.roomId, inputs.userName);
+            joinExistingRoom(inputs.roomId, localStorage.getItem("username"));
         }
     }
 
     useEffect(() => {
-        if (inputs.roomId.length === 4 && !showUserNameInput) {
-            enterRoom();
-        }
-    }, []);
+      console.log(localStorage.getItem("username"));
+
+      if (localStorage.getItem("username")) {
+        setUserNameInput(false);
+        setRoomInput(true);
+      } else {
+        setUserNameInput(true);
+      }
+
+      if (inputs.roomId.length === 4 && !showUserNameInput) {
+        setValidRoom("checking");
+        enterRoom();
+      }
+      console.log("roomStatus", roomId);
+      if (roomId) {
+        setValidRoom("joined");
+        setValidRoom(null);
+      }
+    }, [inputs.roomId, roomId]);
 
     // If there are stored values for User Name and Room Number, things will change
     return (
-        <div id="user-info-modal">
-            <div className="inner-container">
-                {(showUserNameInput) && (
-                    <>
-                        <Input
-                            inputType="text"
-                            placeholder="Enter Your Name"
-                            name="userName"
-                            value={inputs.userName}
-                            handleFormChange={handleFormChange}
-                            maxLength="15"
-                        />
-                        <Button
-                            className="info-modal"
-                            onClick={toggleUserName}
-                        >
-                            Confirm Name
-                    </Button>
-                    </>
-                )}
-                {(showRoomInput && !showUserNameInput) && (
-                    <>
-                        <h1>Join Room</h1>
-                        <Input
-                            inputType="text"
-                            placeholder="- - - -"
-                            name="roomId"
-                            value={inputs.roomId}
-                            handleFormChange={handleFormChange}
-                            maxLength="4"
-                        />
-                        <hr />
-                        <Button
-                            className="info-modal"
-                            onClick={enterRoom}
-                        >
-                            Join Room
-                        </Button>
-                        <Button
-                            className="info-modal"
-                            onClick={createNewRoom}
-                        >
-                            Create New Room
-                        </Button>
-                    </>
-                )}
-            </div>
+      <div id="user-info-modal">
+        <div className="inner-container">
+          {showUserNameInput && (
+            <>
+              <Input
+                inputType="text"
+                placeholder="Enter Your Name"
+                name="userName"
+                value={inputs.userName}
+                handleFormChange={handleFormChange}
+                maxLength="15"
+              />
+              <Button className="info-modal" onClick={toggleUserName}>
+                Confirm Name
+              </Button>
+            </>
+          )}
+          {showRoomInput && !showUserNameInput && (
+            <>
+              <h1>Join Room</h1>
+              <Input
+                inputType="text"
+                placeholder="&mdash; &mdash; &mdash; &mdash;"
+                name="roomId"
+                value={inputs.roomId}
+                handleFormChange={handleFormChange}
+                maxLength="4"
+                className={`${validRoom} userName`}
+              />
+              <hr />
+              <Button
+                className="info-modal"
+                onClick={enterRoom}
+                disabled={validRoom}
+              >
+                Join Room
+              </Button>
+              <Button
+                className="info-modal"
+                onClick={createNewRoom}
+                disabled={validRoom}
+              >
+                Create New Room
+              </Button>
+            </>
+          )}
         </div>
-    )
+      </div>
+    );
 }
 
 export default UserInfoModal;

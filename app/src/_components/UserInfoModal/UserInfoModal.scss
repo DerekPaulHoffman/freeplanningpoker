@@ -25,15 +25,33 @@
         flex-direction: column;
         border-radius: 7px;
         .inner-container {
-            width: 50%;
             h1 {
                 color: $orange;
+                font-size: 2rem;
             }
             hr {
                 margin: .5rem 0;
                 outline: none;
                 border: 1px solid $orange;
                 width: 100%;
+            }
+            #userName{
+                font-size: 2rem;
+            }
+            #roomId{
+                letter-spacing: 1.5rem;
+                text-transform: uppercase;
+                transition: background-color 2s;
+                &.checking{
+                    background-color: #d23d19d1;
+                }
+                &.joined{
+                    background-color: green;
+                }
+                &::placeholder{
+                    letter-spacing: .5rem;
+                    padding-left:0;
+                }
             }
         }
     }

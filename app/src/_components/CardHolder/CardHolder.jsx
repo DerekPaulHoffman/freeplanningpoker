@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useWindowDimensions from '../../hooks/getWindowDimensions'
 
 
@@ -6,7 +6,6 @@ import './CardHolder.scss';
 
 // Components
 import DraggableCard from "./DraggableCard/DraggableCard";
-import Portal from "../Portal/Portal";
 
 
 const CardHolder = () => {
@@ -38,21 +37,23 @@ const CardHolder = () => {
       </div>
       {fibonacci.map((cardNumber, index) => {
         return (
-          <DraggableCard
-            cardNumber={cardNumber}
-            resetStates={resetStates}
-            draggedState={draggedState}
-            chosenState={index === chosenIndex}
-            myIndex={index}
-            xPos={((width - 50) / fibonacci.length) * index + 20}
-            yPos={
-              height -
-              120 +
-              Math.abs((90 / (fibonacci.length - 1)) * index - 45) * 1
-            }
-            roation={(90 / (fibonacci.length - 1)) * index - 45}
-            cardDimensions={cardDimensions}
-          />
+          <div key={`draggableCard${cardNumber}`}>
+            <DraggableCard
+              cardNumber={cardNumber}
+              resetStates={resetStates}
+              draggedState={draggedState}
+              chosenState={index === chosenIndex}
+              myIndex={index}
+              xPos={((width - 50) / fibonacci.length) * index + 20}
+              yPos={
+                height -
+                120 +
+                Math.abs((90 / (fibonacci.length - 1)) * index - 45) * 1
+              }
+              roation={(90 / (fibonacci.length - 1)) * index - 45}
+              cardDimensions={cardDimensions}
+            />
+          </div>
         );
       })}
     </div>

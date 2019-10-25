@@ -11,13 +11,16 @@ import Card from "../../Card/Card";
 import "./DraggableCard.scss";
 
 const DraggableCard = props => {
-  const [originalPosition, setOriginalPosition] = useState(null);
+  const [originalPosition, setOriginalPosition] = useState({
+    x: 0,
+    y: 1000
+  });
   const [dragging, setDragging] = useState(false);
   const { height } = useWindowDimensions();
 
   useEffect(() => {
     setOriginalPosition({ x: props.xPos, y: props.yPos });
-  }, []);
+  }, [props.xPos, props.yPos]);
 
   const handleDrag = (e, ui) => {
     setDragging(true);

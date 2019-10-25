@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import React, { useEffect, useState } from 'react';
 
 import Header from './_components/Header/Header';
@@ -16,47 +17,71 @@ import './styles/App.scss';
 import './styles/Common.scss';
 
 const App = () => {
-  const [timestamp, setTimestamp] = useState(0);  
+  const [roomUsers, setRoomUsers] = useState([]);
+  const [roomId, setRoomId] = useState();
+  const [sessionId, setSessionId] = useState();
   const { showModal, setShowModal } = useModalRequirements();
+  
 
-
-  useEffect(() => {
-    Sockets.socketInit((err, timestamp) => {
-      console.log(timestamp);
-      setTimestamp(timestamp);
-    });
-  }, [timestamp]);
-
-  const createNewRoom = (userName) => {
-    console.log('create new room', userName);
+  const createNewRoom = userName => {
+    console.log("create new room", userName);
     // Gotta rng a room id and then send both the username and room number to the socket
     // Sockets.sendUsername(userName);
     setShowModal(false);
-  }
+  };
 
   const joinExistingRoom = async (roomId, userName) => {
     // I'm not sure yet how to set my self as a certain username in a room
     await Sockets.sendUsername(userName);
     await Sockets.joinRoom(roomId);
     setShowModal(false);
-  }
+  };
+  
+
+  useEffect(() => {
+    Sockets.socketInit(err => {});
+    let roomURL = window.location.pathname.replace("/", "");
+    if (roomURL.length === 4) {
+      if (localStorage.getItem("username")) {
+        joinExistingRoom(roomId, localStorage.getItem("username"));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    Sockets.readRoomId(roomId => {
+      console.log("roomId", roomId);
+      setRoomId(roomId);
+    });
+  }, [roomId]);
+  
+  useEffect(() => {
+      Sockets.readRoomUsers(roomUsers => {
+        Sockets.getSessionId();
+        setRoomUsers(roomUsers);
+      });
+      Sockets.setSessionId(sessionId => {
+        setSessionId(sessionId);
+      });
+    }, [sessionId]);
 
   return (
     <div className="App">
-      <Header />
-      
+      <Header roomId={roomId} />
+
       <CardHolder />
-      {(showModal) && (
+      {showModal && (
         <Portal>
           <div id="overlay">
-            <UserInfoModal 
+            <UserInfoModal
               joinExistingRoom={joinExistingRoom}
               createNewRoom={createNewRoom}
+              roomId={roomId}
             />
           </div>
         </Portal>
       )}
-      <PlayingSurface />
+      <PlayingSurface roomUsers={roomUsers} sessionId={sessionId} />
     </div>
   );
 }

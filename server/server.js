@@ -44,10 +44,10 @@ io.on('connection', (socket) => {
       console.log(roomsDB[room][user]);
     }
     io.in(room).emit('readRoomUsers', roomsDB[room]);
+    io.in(room).emit('readRoomId', room);
   });
-  socket.on('getroom', function(room){
-    console.log('getroomserver', room)
-    io.in(room).emit('readRoomUsers', roomsDB[room]);
+  socket.on('getroom', function(){
+    io.in(room).emit('readRoomId', usersRoom);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected from room' + usersRoom);

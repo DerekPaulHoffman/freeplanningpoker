@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Button from '../Button/Button';
-
-import * as Sockets from '../../utilities/api.js';
 
 import useFormLogic from '../../hooks/useFormLogic';
 import useModalRequirements from '../../hooks/useModalRequirements';
 
 import './Header.scss';
 
-const Header = () => {
+const Header = ({roomId}) => {
     const { inputs } = useFormLogic();
     const { setShowModal, setUserNameInput, setRoomInput } = useModalRequirements();
     
@@ -25,7 +23,7 @@ const Header = () => {
             <div className="top-header">
                 <h1>FREE PLANNING POKER</h1>
             </div>
-            {/* <div className="sub-header row">
+            <div className="sub-header row">
                 <div className="col-xs-3">
                     <Button
                         className="pill username"
@@ -43,7 +41,7 @@ const Header = () => {
                     <Button
                         className="pill roomid"
                     >
-                        {inputs.roomId}
+                        {roomId}
                     </Button>
                     <Button
                         className="icon"
@@ -54,7 +52,7 @@ const Header = () => {
                 <div className="col-xs-3">
 
                 </div>
-            </div> */}
+            </div>
         </header>
     )
 }

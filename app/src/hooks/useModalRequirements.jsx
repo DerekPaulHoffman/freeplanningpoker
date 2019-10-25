@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const useModalRequirements = () => {
-    const [showUserNameInput, setUserNameInput] = useState(true);
+    const [showUserNameInput, setUserNameInput] = useState(false);
     const [showRoomInput, setRoomInput] = useState(false);
     const [showModal, setShowModal] = useState(true);
 
