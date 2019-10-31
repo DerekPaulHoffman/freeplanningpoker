@@ -31,6 +31,7 @@ const App = () => {
 
 
   const joinRoom = async (roomId, userName) => {
+    setUserName(userName);
     await Sockets.sendUsername(userName);
     await Sockets.joinRoom(roomId);
     setShowModal(false);
@@ -45,12 +46,15 @@ const App = () => {
 
   useEffect(() => {
     Sockets.socketInit(err => {});
-    let roomURL = window.location.pathname.replace("/", "");
+    let roomURL = window.location.hash.replace("#/", "");
     console.log("roomURL", roomURL);
     let userNameLocalHost = localStorage.getItem("username");
+    console.log(userNameLocalHost);
+    console.log(roomURL);
     if (roomURL.length === 4) {
       setRoomId(roomURL);
       if (userNameLocalHost) {
+        console.log("LETS JOIN!");
         setUserName(userNameLocalHost);
         joinRoom(roomURL, userNameLocalHost);
       }
