@@ -11,8 +11,7 @@ import useFormLogic from '../../hooks/useFormLogic';
 import useModalRequirements from '../../hooks/useModalRequirements';
 
 const UserInfoModal = ({
-  joinExistingRoom,
-  createNewRoom,
+  joinRoom,
   roomId,
   changeUsername
 }) => {
@@ -34,17 +33,31 @@ const UserInfoModal = ({
     }
   };
 
-  const enterRoom = () => {
+  const enterRoom = (newRoom = false) => {
     // Sanitize the inputs
-    if (inputs.roomId.length === 4) {
+    let thisRoomNumber =''; 
+    console.log("enterRoom", newRoom);
+    if (inputs.roomId.length === 4 || newRoom) {
+      if(newRoom){
+        thisRoomNumber = randomString(4,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+      } else{
+        thisRoomNumber = inputs.roomId.toUpperCase();
+      }
       window.history.pushState(
-        inputs.roomId,
+        thisRoomNumber,
         "Free Planning Poker",
-        `/${inputs.roomId}`
+        `/#/${thisRoomNumber}`
       );
-      joinExistingRoom(inputs.roomId, localStorage.getItem("username"));
+      joinRoom(thisRoomNumber, localStorage.getItem("username"));
     }
   };
+
+  const randomString= (length, chars) => {
+    var result = "";
+    for (var i = length; i > 0; --i)
+      result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  }
 
   const resetUsername = () => {
     setUserNameInput(true);
@@ -60,12 +73,10 @@ const UserInfoModal = ({
     } else {
       setUserNameInput(true);
     }
-
     if (inputs.roomId.length === 4 && !showUserNameInput) {
       setValidRoom("checking");
       enterRoom();
     }
-    console.log("roomStatus", roomId);
     if (roomId) {
       setValidRoom("joined");
       setValidRoom(null);
@@ -106,7 +117,7 @@ const UserInfoModal = ({
             <hr />
             <Button
               className="info-modal"
-              onClick={createNewRoom}
+              onClick={() => enterRoom(true)}
               disabled={validRoom}
             >
               Create New Room

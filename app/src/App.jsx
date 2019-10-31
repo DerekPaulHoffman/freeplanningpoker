@@ -22,21 +22,15 @@ const App = () => {
   const [userName, setUserName] = useState();
   const [sessionId, setSessionId] = useState();
   const { showModal, setShowModal } = useModalRequirements();
-  
 
-  const createNewRoom = userName => {
-    console.log("create new room", userName);
-    // Gotta rng a room id and then send both the username and room number to the socket
-    // Sockets.sendUsername(userName);
-    setShowModal(false);
-  };
+  
 
   const changeUsername = (username) => {
     setUserName(username);
   };
 
-  const joinExistingRoom = async (roomId, userName) => {
-    // I'm not sure yet how to set my self as a certain username in a room
+
+  const joinRoom = async (roomId, userName) => {
     await Sockets.sendUsername(userName);
     await Sockets.joinRoom(roomId);
     setShowModal(false);
@@ -52,12 +46,13 @@ const App = () => {
   useEffect(() => {
     Sockets.socketInit(err => {});
     let roomURL = window.location.pathname.replace("/", "");
+    console.log("roomURL", roomURL);
     let userNameLocalHost = localStorage.getItem("username");
     if (roomURL.length === 4) {
       setRoomId(roomURL);
       if (userNameLocalHost) {
         setUserName(userNameLocalHost);
-        joinExistingRoom(roomURL, userNameLocalHost);
+        joinRoom(roomURL, userNameLocalHost);
       }
     }
   }, []);
@@ -94,8 +89,7 @@ const App = () => {
         <Portal>
           <div id="overlay">
             <UserInfoModal
-              joinExistingRoom={joinExistingRoom}
-              createNewRoom={createNewRoom}
+              joinRoom={joinRoom}
               roomId={roomId}
               changeUsername={changeUsername}
             />

@@ -40,6 +40,7 @@
     right:-40vw;
     z-index: 4000;
     transition: all .2s ease-in;
+    overflow: hidden;
     &.active{
         right:0;
     }
@@ -47,6 +48,7 @@
         text-decoration: underline;
         padding:1rem 0;
         width:100%;
+    overflow: hidden;
     }
     .arrow-up {
         width: 0;
@@ -58,6 +60,7 @@
         z-index: 4000;
         top: -10px;
         right: 3vw;
+    overflow: hidden;
     }
 }
 
