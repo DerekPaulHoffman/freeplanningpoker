@@ -68,7 +68,7 @@ const Header = ({ roomId, userName, leaveRoom }) => {
         </div>
         <div className="col-xs-3">
           <Button
-            className={`hamburger hamburger--arrowalt js-hamburger ${showNav &&
+            className={`hamburger hamburger--squeeze js-hamburger js-hamburger ${showNav &&
               "is-active"}`}
             onClick={() => setShowNav(!showNav)}
           >
@@ -77,7 +77,7 @@ const Header = ({ roomId, userName, leaveRoom }) => {
             </div>
           </Button>
           <div className={`nav ${showNav && "active"}`}>
-            <ul className="">
+            <ul className="row">
               <li className="col-xs-12" onClick={leaveTheRoom}>
                 Leave Room
               </li>
