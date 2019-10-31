@@ -12,9 +12,12 @@
     margin: 1rem 0;
     padding: 1rem 0;
     &.pill {
-        background: none;
-        border: 1px solid black;
+        border: 2px solid #595959;
         border-radius: 25px;
+        padding: .5rem;
+        background-color: white;
+        color: #333;
+        height: 10vw;
     }
     &:disabled{
         background-color: grey;

@@ -28,6 +28,7 @@ io.on('connection', (socket) => {
           userName: username,
           sessionId: socket.id,
           message: '',
+          showVotes: false,
         });
       }
     } else {
@@ -37,6 +38,7 @@ io.on('connection', (socket) => {
         userName: username,
         sessionId: socket.id,
         message: '',
+        showVotes: false,
       });
     }
     //Send out
@@ -51,14 +53,14 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', function(){
     console.log('user disconnected from room' + usersRoom);
-    console.log('usersocket.id' + socket.id);
     if(roomsDB[usersRoom]){
       console.log("found room:"+ usersRoom);
       for (user in roomsDB[usersRoom]) {
-      console.log('roomsDB[usersRoom][user].sessionId' + roomsDB[usersRoom][user].sessionId);
+        console.log('username: ' + roomsDB[usersRoom][user].userName);
         if(roomsDB[usersRoom][user].sessionId === socket.id) {
           console.log('splice out found sessionId');
-          roomsDB[usersRoom].splice(user, 1);          
+          roomsDB[usersRoom].splice(user, 1);
+          io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
         }
       }
       if(roomsDB[usersRoom].length === 0){
@@ -66,8 +68,38 @@ io.on('connection', (socket) => {
         delete roomsDB[usersRoom];
         console.log(roomsDB);
       }
+
+      socket.leave(usersRoom);
+      usersRoom = '';  
     } else {
        console.log('problem with room:' + usersRoom, roomsDB);
+    }
+  });
+  socket.on('leaveRoom', function () {
+    console.log('user left from room: ' + usersRoom);
+    if (roomsDB[usersRoom]) {
+      console.log("found room:" + usersRoom);
+      for (user in roomsDB[usersRoom]) {
+        console.log('username: ' + roomsDB[usersRoom][user].userName);
+        console.log('roomsDB[usersRoom][user].sessionId' + roomsDB[usersRoom][user].sessionId);
+        if (roomsDB[usersRoom][user].sessionId === socket.id) {
+          console.log('splice out found sessionId');
+          roomsDB[usersRoom].splice(user, 1);
+        }
+      }
+      if (roomsDB[usersRoom].length === 0) {
+        console.log(usersRoom + ' is empty removing room');
+        delete roomsDB[usersRoom];
+        io.in(usersRoom).emit('readRoomUsers', []);
+      } else {
+        io.in(usersRoom).emit('readRoomUsers', roomsDB[room]);
+      }
+
+      io.in(usersRoom).emit('readRoomId', '');
+      socket.leave(usersRoom);    
+      usersRoom = '';    
+    } else {
+      console.log('problem with room:' + usersRoom, roomsDB);
     }
   });
   socket.on('readMessage', (newMessage) => {
@@ -80,6 +112,25 @@ io.on('connection', (socket) => {
         if(roomsDB[usersRoom][user].sessionId === socket.id) {
           roomsDB[usersRoom][user].message = newMessage;
         }
+    }
+    io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
+  });
+  socket.on('showVotes', () => {
+    for (user in roomsDB[usersRoom]) {
+      console.log("User " + roomsDB[usersRoom][user].userName +" Wanted To Show Votes")
+      if (roomsDB[usersRoom][user].sessionId === socket.id) {
+        roomsDB[usersRoom][user].showVotes = true;
+      } else {
+        roomsDB[usersRoom][user].showVotes = false;
+      }
+    }
+    io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
+  });
+  socket.on('clearVotes', () => {
+    console.log("Clear Votes")
+    for (user in roomsDB[usersRoom]) {
+        roomsDB[usersRoom][user].message = '';
+        roomsDB[usersRoom][user].showVotes = '';
     }
     io.in(usersRoom).emit('readRoomUsers', roomsDB[usersRoom]);
   });

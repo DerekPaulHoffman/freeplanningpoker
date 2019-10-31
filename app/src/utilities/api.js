@@ -36,6 +36,15 @@ function getRoom(room) {
   console.log('getroom', room)
   socket.emit('getroom', room);
 }
+function leaveRoom() {
+  socket.emit('leaveRoom');
+}
+function clearVotes() {
+  socket.emit('clearVotes');
+}
+function showVotes() {
+  socket.emit('showVotes');
+}
 function readRoomId(roomId) {
   socket.on('readRoomId', roomId);
 }
@@ -43,4 +52,4 @@ function readRoomUsers(users) {
   socket.on('readRoomUsers', users);
 }
 
-export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId, setSessionId, sendUsername, getRoom, readRoomId }
+export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId, setSessionId, sendUsername, getRoom, leaveRoom, clearVotes, showVotes, readRoomId }

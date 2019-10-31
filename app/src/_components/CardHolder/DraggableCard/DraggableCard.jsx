@@ -35,10 +35,7 @@ const DraggableCard = props => {
     setOriginalPosition({ x: props.xPos, y: props.yPos });
     console.log(e);
     if (e.type === "touchend") {
-      console.log(e.changedTouches);
-      console.log(e.changedTouches[0].clientY);
       if (e.changedTouches[0].clientY < height * 0.7) {
-        console.log("above");
         props.resetStates(props.myIndex);
         Sockets.sendMessage(props.cardNumber);
       }

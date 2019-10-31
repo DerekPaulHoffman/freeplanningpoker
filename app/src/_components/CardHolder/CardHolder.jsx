@@ -14,6 +14,7 @@ const CardHolder = () => {
   const [currentDraggedState, setcurrentDraggedState] = useState(false);
   const { height, width } = useWindowDimensions();
   const cardDimensions = {width:2.25 * 10, height:3.5 * 10}
+  
 
   const resetStates = (chosenIndex) => {
     setchosenIndex(chosenIndex);

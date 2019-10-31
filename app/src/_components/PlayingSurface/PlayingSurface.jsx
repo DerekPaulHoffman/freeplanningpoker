@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from "react";
 
 import Card from "../Card/Card.jsx";
 
+// APIs
+import * as Sockets from '../../utilities/api.js';
 
 import "./PlayingSurface.scss";
 
@@ -11,9 +13,45 @@ const PlayingSurface = (props) => {
 
   const cardDimensions = { width: 2.25 * 12, height: 3.5 * 12 };
 
+  const changeVoteToggle = () => {
+    if (showVotes){
+      Sockets.clearVotes();
+      setShowVotes(false); 
+    } else{
+      Sockets.showVotes(false);
+      setShowVotes(true);
+    }
+  };
+
+  useEffect(() => {
+    for (let roomUser of roomUsers) {
+      console.log(roomUser);
+      if (roomUser.showVotes) {
+        console.log("true");
+        setShowVotes(true);
+        break;
+      }
+      console.log("false");
+      setShowVotes(false);
+    }
+  }, [roomUsers]);
+
   return (
     <>
-      <button onClick={() => setShowVotes(true)}>Show Votes</button>
+      <div className="onoffswitch">
+        <input
+          type="checkbox"
+          name="onoffswitch"
+          className="onoffswitch-checkbox"
+          id="myonoffswitch"
+          checked={showVotes}
+          onClick={changeVoteToggle}
+        />
+        <label className="onoffswitch-label" for="myonoffswitch">
+          <span className="onoffswitch-inner"></span>
+          <span className="onoffswitch-switch"></span>
+        </label>
+      </div>
       <ul className="playingSurface row">
         {roomUsers.map((roomUser, index) => {
           return (
@@ -31,7 +69,7 @@ const PlayingSurface = (props) => {
             >
               <div className="container">
                 <div className="deck">
-                  <div className={`cardasd ${showVotes && "flipped"}`}>
+                  <div className={`fullCard ${showVotes && "flipped"}`}>
                     <div className="front face">
                       <Card
                         key={index + 1}
@@ -43,7 +81,11 @@ const PlayingSurface = (props) => {
                         cardNumber={
                           roomUser.sessionId === sessionId && roomUser.message
                         }
-                        cardName={roomUser.userName}
+                        cardName={
+                          roomUser.sessionId === sessionId
+                            ? "Me"
+                            : roomUser.userName
+                        }
                       />
                     </div>
                     <div className="back face">
@@ -55,6 +97,7 @@ const PlayingSurface = (props) => {
                         className={`card surfaceCard`}
                         cardNumber={roomUser.message}
                         cardName={roomUser.userName}
+                        showVotes={roomUser.showVotes && "I clicked the button"}
                       />
                     </div>
                   </div>

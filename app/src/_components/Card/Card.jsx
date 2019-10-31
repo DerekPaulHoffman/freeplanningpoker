@@ -13,6 +13,7 @@ const Card = (props) => {
         }}
         className={props.className}
       >
+        <div className="cardShowVotes">{props.showVotes}</div>
         <div className="cardNumber">{props.cardNumber}</div>
         <div className="cardName">{props.cardName}</div>
       </div>

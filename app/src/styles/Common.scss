@@ -19,6 +19,10 @@ html, body, #root {
 	height: 100%;
 }
 
+.relative{
+	position: relative;
+}
+
 .deskbreak, .desk-break {
 	display: none;
 	@include for-desktop {

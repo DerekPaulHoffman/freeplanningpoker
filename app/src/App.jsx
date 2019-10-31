@@ -19,6 +19,7 @@ import './styles/Common.scss';
 const App = () => {
   const [roomUsers, setRoomUsers] = useState([]);
   const [roomId, setRoomId] = useState();
+  const [userName, setUserName] = useState();
   const [sessionId, setSessionId] = useState();
   const { showModal, setShowModal } = useModalRequirements();
   
@@ -30,20 +31,33 @@ const App = () => {
     setShowModal(false);
   };
 
+  const changeUsername = (username) => {
+    setUserName(username);
+  };
+
   const joinExistingRoom = async (roomId, userName) => {
     // I'm not sure yet how to set my self as a certain username in a room
     await Sockets.sendUsername(userName);
     await Sockets.joinRoom(roomId);
     setShowModal(false);
   };
+
+  const leaveRoom = () => {
+    window.history.pushState('', "Free Planning Poker", `/`);
+    Sockets.leaveRoom();
+    setShowModal(true);
+  };
   
 
   useEffect(() => {
     Sockets.socketInit(err => {});
     let roomURL = window.location.pathname.replace("/", "");
+    let userNameLocalHost = localStorage.getItem("username");
     if (roomURL.length === 4) {
-      if (localStorage.getItem("username")) {
-        joinExistingRoom(roomId, localStorage.getItem("username"));
+      setRoomId(roomURL);
+      if (userNameLocalHost) {
+        setUserName(userNameLocalHost);
+        joinExistingRoom(roomURL, userNameLocalHost);
       }
     }
   }, []);
@@ -57,6 +71,7 @@ const App = () => {
   
   useEffect(() => {
       Sockets.readRoomUsers(roomUsers => {
+        console.log(roomUsers);
         Sockets.getSessionId();
         setRoomUsers(roomUsers);
       });
@@ -67,7 +82,12 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header roomId={roomId} />
+      <Header
+        roomId={roomId}
+        userName={userName}
+        leaveRoom={leaveRoom}
+        changeUsername={changeUsername}
+      />
 
       <CardHolder />
       {showModal && (
@@ -77,6 +97,7 @@ const App = () => {
               joinExistingRoom={joinExistingRoom}
               createNewRoom={createNewRoom}
               roomId={roomId}
+              changeUsername={changeUsername}
             />
           </div>
         </Portal>
