@@ -84,6 +84,7 @@ const App = () => {
         changeUsername={changeUsername}
       />
 
+      <CardHolder />
       {showModal && (
         <Portal>
           <div id="overlay">

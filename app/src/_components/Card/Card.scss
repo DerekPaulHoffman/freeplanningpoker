@@ -25,6 +25,7 @@
     border-radius:5px;
     transition: transform 0.2s;
     box-shadow: -2px 2px 2px 0px rgba(0,0,0,0.35);
+    pointer-events: visible;
     &.chosen{
         border:2px dashed gold;
         background-color: rgba($color: #fff, $alpha: .5);

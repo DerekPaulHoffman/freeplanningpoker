@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 import Input from '../Input/Input';
 import Button from '../Button/Button';
@@ -72,6 +72,7 @@ const UserInfoModal = ({
       setRoomInput(true);
     } else {
       setUserNameInput(true);
+      //userNameRef.current.focus();
     }
     if (inputs.roomId.length === 4 && !showUserNameInput) {
       setValidRoom("checking");
