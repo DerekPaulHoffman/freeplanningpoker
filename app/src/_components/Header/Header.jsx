@@ -11,11 +11,7 @@ const Header = ({ roomId, userName, leaveRoom }) => {
     const [showNav, setShowNav] = useState(false);
     
  const shareRoom = () => {
-     console.log("in it");
-     console.log(navigator);
-     alert();
    if (navigator.share) {
-     alert("in it");
      navigator
        .share({
          title: "Free Planning Poker",
