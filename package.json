@@ -67,6 +67,7 @@
     "react-hot-loader": "^4.12.15",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
+    "webpack": "^4.43.0",
     "webpack-cli": "^3.3.9"
   },
   "scripts": {
