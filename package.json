@@ -9,6 +9,7 @@
     "url": "gitwebdev@awsgitwebdev.aws.synapsegroupinc.com:repos/webdev/webprod-templates.git"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.15",
     "modernizr": "^3.7.1",
@@ -60,6 +61,7 @@
     "gulp-if": "^3.0.0",
     "gulp-prompt": "^1.2.0",
     "gulp-rename": "^1.4.0",
+    "http": "0.0.1-security",
     "json-loader": "^0.5.7",
     "modernizr-loader": "^1.0.1",
     "node-sass": "^4.12.0",

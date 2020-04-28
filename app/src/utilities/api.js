@@ -2,7 +2,7 @@ import openSocket from 'socket.io-client';
 
 import { localEnvCheck } from './env.js';
 
-const socket = (localEnvCheck()) ? openSocket('http://localhost:8000') : openSocket('https://ec2-13-59-76-90.us-east-2.compute.amazonaws.com:8000');
+const socket = (localEnvCheck()) ? openSocket('https://freeplanningpoker-env.eba-mmzxfet3.us-east-2.elasticbeanstalk.com:8081') : openSocket('https://freeplanningpoker-env.eba-mmzxfet3.us-east-2.elasticbeanstalk.com:8081');
 
 function socketInit(cb) {
   socket.on('timer', timestamp => cb(null, timestamp));

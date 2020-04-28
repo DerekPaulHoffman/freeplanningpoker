@@ -1,4 +1,11 @@
-const io = require('socket.io')();
+const http = require('http');
+const express = require('express');
+const socketio = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
 let roomsDB = {};
 io.on('connection', (socket) => {
   let username = 'Anonymous';
@@ -145,6 +152,7 @@ const checkSessionId = (sessionId, room) => {
     return false;
 }
 
-const port = 8000;
-io.listen(port);
+const port = 8081;
+
+server.listen(port); // whatever port you are using
 console.log('listening on port ', port);
