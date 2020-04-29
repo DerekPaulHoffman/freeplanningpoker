@@ -15,10 +15,10 @@ const PlayingSurface = (props) => {
 
   const changeVoteToggle = () => {
     if (showVotes){
-      Sockets.clearVotes();
+      // Sockets.clearVotes();
       setShowVotes(false); 
     } else{
-      Sockets.showVotes(false);
+      // Sockets.showVotes(false);
       setShowVotes(true);
     }
   };

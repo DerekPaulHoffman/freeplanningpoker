@@ -1,55 +1,67 @@
-import openSocket from 'socket.io-client';
+const startWebSocket = () => {
+  return new Promise(function (resolve, reject) {
+     console.log("create a websocket");
+     const websocket = new WebSocket(
+       "wss:/api.freeplanningpoker.com"
+     );
 
-import { localEnvCheck } from './env.js';
+    websocket.onopen = (evt) => {
+      console.log("onopen", evt);
+      resolve(websocket);
+    };
+    websocket.onerror = (evt) => {
+      console.log("error", evt);
+      reject(evt);
+    };
+    
+    websocket.onmessage = (evt) => {
+      console.log("onmessage", evt);
+    };
+    
+    websocket.onclose = (evt) => {
+      console.log("onclose", evt);
+    };
+  });
+ 
+}
 
-const socket = (localEnvCheck()) ? openSocket('https://api.freeplanningpoker.com') : openSocket('https://api.freeplanningpoker.com', { secure: true });
-
-function socketInit(cb) {
-  socket.on('timer', timestamp => cb(null, timestamp));
-  socket.emit('socketInit', 1000);
-  socket.on('connect', () => {
+const joinRoom = (websocket, roomId) => {
+  return new Promise(function (resolve, reject) {
+    console.log("join room", websocket);
+    websocket.send(`{"roomId": "${roomId}","action": "joinRoom"}`);
+    websocket.onmessage = () => {
+      resolve(websocket);
+    };
+    websocket.onerror = (err) => {
+      reject(err);
+    };
   });
 }
 
-function getSessionId() {
-  socket.emit('getSessionId');
-}
-function setSessionId(ourMessage) {
-  socket.on('setSessionId', ourMessage);
-}
-
-function sendMessage(ourMessage, room) {
-  socket.emit('readMessage', ourMessage, room);
-}
-function readMessage(ourMessage) {
-  socket.on('readMessage', ourMessage);
-}
-
-function sendUsername(userName) {
-  socket.emit('sendUsername', userName);
+const leaveRoom = (websocket) => {
+  return new Promise(function (resolve, reject) {
+    console.log("leave room", websocket);
+    websocket.send(`{"roomId": "No Room","action": "joinRoom"}`);
+    websocket.onmessage = () => {
+      resolve(websocket);
+    };
+    websocket.onerror = (err) => {
+      reject(err);
+    };
+  });
 }
 
-function joinRoom(room) {
-  socket.emit('room', room);
-}
-function getRoom(room) {
-  console.log('getroom', room)
-  socket.emit('getroom', room);
-}
-function leaveRoom() {
-  socket.emit('leaveRoom');
-}
-function clearVotes() {
-  socket.emit('clearVotes');
-}
-function showVotes() {
-  socket.emit('showVotes');
-}
-function readRoomId(roomId) {
-  socket.on('readRoomId', roomId);
-}
-function readRoomUsers(users) {
-  socket.on('readRoomUsers', users);
-}
+const sendUsername = (websocket, username) => {
+  return new Promise(function (resolve, reject) {
+    console.log("sendUsername", websocket);
+    websocket.send(`{"username": "${username}","action": "changeUsername"}`);
+    websocket.onmessage = function () {
+      resolve(websocket);
+    };
+    websocket.onerror = function (err) {
+      reject(err);
+    };
+  });
+};
 
-export { socketInit, sendMessage, readMessage, joinRoom, readRoomUsers, getSessionId, setSessionId, sendUsername, getRoom, leaveRoom, clearVotes, showVotes, readRoomId }
+export { startWebSocket, joinRoom, sendUsername, leaveRoom };

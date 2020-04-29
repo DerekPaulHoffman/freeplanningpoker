@@ -37,7 +37,7 @@ const DraggableCard = props => {
     if (e.type === "touchend") {
       if (e.changedTouches[0].clientY < height * 0.7) {
         props.resetStates(props.myIndex);
-        Sockets.sendMessage(props.cardNumber);
+        // Sockets.sendMessage(props.cardNumber);
       }
     }
   };

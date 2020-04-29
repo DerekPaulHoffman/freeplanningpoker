@@ -1,5 +1,5 @@
 // eslint-disable-next-line react-hooks/exhaustive-deps
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 import Header from './_components/Header/Header';
 import Portal from './_components/Portal/Portal';
@@ -18,11 +18,12 @@ import './styles/Common.scss';
 
 const App = () => {
   const [roomUsers, setRoomUsers] = useState([]);
+  const [websocket, setWebsocket] = useState();
   const [roomId, setRoomId] = useState();
   const [userName, setUserName] = useState();
   const [sessionId, setSessionId] = useState();
   const { showModal, setShowModal } = useModalRequirements();
-
+ 
   
 
   const changeUsername = (username) => {
@@ -32,52 +33,63 @@ const App = () => {
 
   const joinRoom = async (roomId, userName) => {
     setUserName(userName);
-    await Sockets.sendUsername(userName);
-    await Sockets.joinRoom(roomId);
+    await Sockets.sendUsername(websocket, userName);
+    await Sockets.joinRoom(websocket, roomId);
     setShowModal(false);
-  };
+    
+};
 
-  const leaveRoom = () => {
-    window.history.pushState('', "Free Planning Poker", `/`);
-    Sockets.leaveRoom();
+  const leaveRoom = async () => {
+    window.history.pushState("", "Free Planning Poker", `/`);
+    await Sockets.leaveRoom(websocket);
     setShowModal(true);
   };
-  
+
+  const initWebSocket = async () => {
+    const newWebsocketResponse = await Sockets.startWebSocket();  
+    console.log(newWebsocketResponse);
+    setWebsocket(newWebsocketResponse);
+  }
 
   useEffect(() => {
-    Sockets.socketInit(err => {});
-    let roomURL = window.location.hash.replace("#/", "");
-    console.log("roomURL", roomURL);
-    let userNameLocalHost = localStorage.getItem("username");
-    console.log(userNameLocalHost);
-    console.log(roomURL);
-    if (roomURL.length === 4) {
-      setRoomId(roomURL);
-      if (userNameLocalHost) {
-        console.log("LETS JOIN!");
-        setUserName(userNameLocalHost);
-        joinRoom(roomURL, userNameLocalHost);
+    //Check if websocket is already instanitated
+    if(websocket) {
+      let roomURL = window.location.hash.replace("#/", "");
+      let userNameLocalHost = localStorage.getItem("username");
+      if (roomURL.length === 4) {
+        setRoomId(roomURL);
+        if (userNameLocalHost) {
+          console.log("LETS JOIN!");
+          setUserName(userNameLocalHost);
+          console.log(roomURL, userNameLocalHost);
+          joinRoom(roomURL, userNameLocalHost);
+        }
       }
     }
+  }, [websocket]);
+
+  //Start the websocket
+  useEffect(() => {
+    initWebSocket();
   }, []);
 
-  useEffect(() => {
-    Sockets.readRoomId(roomId => {
-      console.log("roomId", roomId);
-      setRoomId(roomId);
-    });
-  }, [roomId]);
+  // useEffect(() => {
+  //   Sockets.readRoomId(roomId => {
+  //     console.log("roomId", roomId);
+  //     setRoomId(roomId);
+  //   });
+  // }, [roomId]);
   
-  useEffect(() => {
-      Sockets.readRoomUsers(roomUsers => {
-        console.log(roomUsers);
-        Sockets.getSessionId();
-        setRoomUsers(roomUsers);
-      });
-      Sockets.setSessionId(sessionId => {
-        setSessionId(sessionId);
-      });
-    }, [sessionId]);
+  // useEffect(() => {
+  //     Sockets.readRoomUsers(roomUsers => {
+  //       console.log(roomUsers);
+  //       Sockets.getSessionId();
+  //       setRoomUsers(roomUsers);
+  //     });
+  //     Sockets.setSessionId(sessionId => {
+  //       setSessionId(sessionId);
+  //     });
+  //   }, [sessionId]);
 
   return (
     <div className="App">
