@@ -47,6 +47,11 @@ functions:
         events:
             - websocket:
                   route: changeUsername
+    websocket-getRoom:
+        handler: lambdas/websockets/getRoom.handler
+        events:
+            - websocket:
+                  route: getRoom
 
 resources:
     Resources:

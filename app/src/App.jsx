@@ -73,12 +73,15 @@ const App = () => {
     initWebSocket();
   }, []);
 
-  // useEffect(() => {
-  //   Sockets.readRoomId(roomId => {
-  //     console.log("roomId", roomId);
-  //     setRoomId(roomId);
-  //   });
-  // }, [roomId]);
+  useEffect(() => {
+    // Sockets.readRoomId(roomId => {
+    //   console.log("roomId", roomId);
+    //   setRoomId(roomId);
+    // });
+    if (roomId) {
+      Sockets.getRoom(websocket, roomId);
+    }
+  }, [roomId]);
   
   // useEffect(() => {
   //     Sockets.readRoomUsers(roomUsers => {

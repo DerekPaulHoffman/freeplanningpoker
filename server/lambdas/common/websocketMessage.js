@@ -19,6 +19,16 @@ const send = ({ domainName, stage, connectionID, message }) => {
     return ws.postToConnection(postParams).promise();
 };
 
+const sendAll = ({ domainName, stage, message }) => {
+    const ws = create(domainName, stage);
+
+    const postParams = {
+        Data: message,
+    };
+
+    return ws.postToConnection(postParams).promise();
+};
+
 const joinRoom = ({ domainName, stage, connectionID, roomId }) => {
   const ws = create(domainName, stage);
 
@@ -33,4 +43,5 @@ const joinRoom = ({ domainName, stage, connectionID, roomId }) => {
 module.exports = {
   send,
   joinRoom,
+  sendAll,
 };

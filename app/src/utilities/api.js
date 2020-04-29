@@ -29,7 +29,8 @@ const joinRoom = (websocket, roomId) => {
   return new Promise(function (resolve, reject) {
     console.log("join room", websocket);
     websocket.send(`{"roomId": "${roomId}","action": "joinRoom"}`);
-    websocket.onmessage = () => {
+    websocket.onmessage = (evt) => {
+      console.log(evt.data)
       resolve(websocket);
     };
     websocket.onerror = (err) => {
@@ -42,7 +43,8 @@ const leaveRoom = (websocket) => {
   return new Promise(function (resolve, reject) {
     console.log("leave room", websocket);
     websocket.send(`{"roomId": "No Room","action": "joinRoom"}`);
-    websocket.onmessage = () => {
+    websocket.onmessage = (evt) => {
+      console.log(evt.data)
       resolve(websocket);
     };
     websocket.onerror = (err) => {
@@ -55,7 +57,8 @@ const sendUsername = (websocket, username) => {
   return new Promise(function (resolve, reject) {
     console.log("sendUsername", websocket);
     websocket.send(`{"username": "${username}","action": "changeUsername"}`);
-    websocket.onmessage = function () {
+    websocket.onmessage = function (evt) {
+      console.log(evt.data)
       resolve(websocket);
     };
     websocket.onerror = function (err) {
@@ -64,4 +67,18 @@ const sendUsername = (websocket, username) => {
   });
 };
 
-export { startWebSocket, joinRoom, sendUsername, leaveRoom };
+const getRoom = (websocket, roomId) => {
+  return new Promise(function (resolve, reject) {
+    console.log("getRoom", websocket);
+    websocket.send(`{"roomId": "${roomId}","action": "getRoom"}`);
+    websocket.onmessage = function (evt) {
+      console.log(evt.data)
+      resolve(websocket);
+    };
+    websocket.onerror = function (err) {
+      reject(err);
+    };
+  });
+};
+
+export { startWebSocket, joinRoom, sendUsername, leaveRoom, getRoom };
