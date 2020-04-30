@@ -36,7 +36,6 @@ const UserInfoModal = ({
   const enterRoom = (newRoom = false) => {
     // Sanitize the inputs
     let thisRoomNumber =''; 
-    console.log("enterRoom", newRoom);
     if (inputs.roomId.length === 4 || newRoom) {
       if(newRoom){
         thisRoomNumber = randomString(4,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -65,8 +64,6 @@ const UserInfoModal = ({
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem("username"));
-
     if (localStorage.getItem("username")) {
       setUserNameInput(false);
       setRoomInput(true);

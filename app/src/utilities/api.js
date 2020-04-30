@@ -1,6 +1,5 @@
 const startWebSocket = () => {
   return new Promise(function (resolve, reject) {
-     console.log("create a websocket");
      const websocket = new WebSocket(
        "wss:/api.freeplanningpoker.com"
      );
@@ -72,8 +71,8 @@ const getRoom = (websocket, roomId) => {
     console.log("getRoom", websocket);
     websocket.send(`{"roomId": "${roomId}","action": "getRoom"}`);
     websocket.onmessage = function (evt) {
-      console.log(evt.data)
-      resolve(websocket);
+      console.log(evt)
+      resolve(JSON.parse(evt.data));
     };
     websocket.onerror = function (err) {
       reject(err);

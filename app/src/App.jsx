@@ -32,9 +32,12 @@ const App = () => {
 
 
   const joinRoom = async (roomId, userName) => {
-    setUserName(userName);
     await Sockets.sendUsername(websocket, userName);
     await Sockets.joinRoom(websocket, roomId);
+    setUserName(userName);
+    setRoomId(roomId);
+    setRoomUsers(await Sockets.getRoom(websocket, roomId));
+    // console.log(await Sockets.getRoom(websocket, roomId));
     setShowModal(false);
     
 };
@@ -54,14 +57,13 @@ const App = () => {
   useEffect(() => {
     //Check if websocket is already instanitated
     if(websocket) {
+    console.log("run websocket useEffect");
       let roomURL = window.location.hash.replace("#/", "");
       let userNameLocalHost = localStorage.getItem("username");
       if (roomURL.length === 4) {
-        setRoomId(roomURL);
+       // setRoomId(roomURL);
         if (userNameLocalHost) {
-          console.log("LETS JOIN!");
           setUserName(userNameLocalHost);
-          console.log(roomURL, userNameLocalHost);
           joinRoom(roomURL, userNameLocalHost);
         }
       }
@@ -73,26 +75,6 @@ const App = () => {
     initWebSocket();
   }, []);
 
-  useEffect(() => {
-    // Sockets.readRoomId(roomId => {
-    //   console.log("roomId", roomId);
-    //   setRoomId(roomId);
-    // });
-    if (roomId) {
-      Sockets.getRoom(websocket, roomId);
-    }
-  }, [roomId]);
-  
-  // useEffect(() => {
-  //     Sockets.readRoomUsers(roomUsers => {
-  //       console.log(roomUsers);
-  //       Sockets.getSessionId();
-  //       setRoomUsers(roomUsers);
-  //     });
-  //     Sockets.setSessionId(sessionId => {
-  //       setSessionId(sessionId);
-  //     });
-  //   }, [sessionId]);
 
   return (
     <div className="App">
