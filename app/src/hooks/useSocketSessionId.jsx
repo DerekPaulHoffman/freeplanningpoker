@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 
 import * as Sockets from '../utilities/api.js';
 
-const useSocketSessionId = () => {
+const useSocketID = () => {
     
-    const [socketSessionId, setSocketSessionId] = useState('');
+    const [socketID, setSocketID] = useState('');
 
     useEffect(() => {
-        Sockets.setSessionId(mySessionId => {
-            setSocketSessionId(mySessionId);
+        Sockets.setID(myID => {
+            setSocketID(myID);
         });
     })
 
     return {
-        socketSessionId,
+        socketID,
     }
 }
 
-export default useSocketSessionId;
+export default useSocketID;

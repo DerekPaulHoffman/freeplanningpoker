@@ -29,12 +29,11 @@ exports.handler = async event => {
         };
 
         await Dynamo.write(data, tableName);
-        console.log(`Joined Room Id: ${newRoomId}`);
         await WebSocket.send({
           domainName,
           stage,
           connectionID,
-          message: `This is a reply to your message, connectionID: ${connectionID}`,
+          message: connectionID,
         });
 
         console.log('200')

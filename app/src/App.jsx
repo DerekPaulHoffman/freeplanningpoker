@@ -21,7 +21,7 @@ const App = () => {
   const [websocket, setWebsocket] = useState();
   const [roomId, setRoomId] = useState();
   const [userName, setUserName] = useState();
-  const [sessionId, setSessionId] = useState();
+  const [ID, setID] = useState();
   const { showModal, setShowModal } = useModalRequirements();
  
   
@@ -33,7 +33,7 @@ const App = () => {
 
   const joinRoom = async (roomId, userName) => {
     await Sockets.sendUsername(websocket, userName);
-    await Sockets.joinRoom(websocket, roomId);
+    setID(await Sockets.joinRoom(websocket, roomId));
     setUserName(userName);
     setRoomId(roomId);
     setRoomUsers(await Sockets.getRoom(websocket, roomId));
@@ -50,14 +50,14 @@ const App = () => {
 
   const initWebSocket = async () => {
     const newWebsocketResponse = await Sockets.startWebSocket();  
-    console.log(newWebsocketResponse);
+    // console.log(newWebsocketResponse);
     setWebsocket(newWebsocketResponse);
   }
 
   useEffect(() => {
     //Check if websocket is already instanitated
     if(websocket) {
-    console.log("run websocket useEffect");
+    // console.log("run websocket useEffect");
       let roomURL = window.location.hash.replace("#/", "");
       let userNameLocalHost = localStorage.getItem("username");
       if (roomURL.length === 4) {
@@ -97,7 +97,7 @@ const App = () => {
           </div>
         </Portal>
       )}
-      <PlayingSurface roomUsers={roomUsers} sessionId={sessionId} />
+      <PlayingSurface roomUsers={roomUsers} ID={ID} />
     </div>
   );
 }

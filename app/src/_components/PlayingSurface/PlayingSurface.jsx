@@ -8,7 +8,7 @@ import * as Sockets from '../../utilities/api.js';
 import "./PlayingSurface.scss";
 
 const PlayingSurface = (props) => {
-  const { roomUsers, sessionId } = props;
+  const { roomUsers, ID } = props;
   const [showVotes, setShowVotes] = useState(false);
 
   const cardDimensions = { width: 2.25 * 12, height: 3.5 * 12 };
@@ -25,7 +25,7 @@ const PlayingSurface = (props) => {
 
   useEffect(() => {
     for (let roomUser of roomUsers) {
-      console.log(roomUser);
+      console.log("roomUser", roomUser);
       if (roomUser.showVotes) {
         console.log("true");
         setShowVotes(true);
@@ -57,11 +57,11 @@ const PlayingSurface = (props) => {
         {roomUsers.map((roomUser, index) => {
           return (
             <li
-              key={`playingSurface${roomUser.userName}${index}`}
+              key={`playingSurface${roomUser.username}${index}`}
               style={{
                 height: `50vw`,
                 order: `${
-                  roomUser.sessionId === sessionId
+                  roomUser.ID === ID
                     ? "0"
                     : index + roomUsers.length
                 }`
@@ -80,12 +80,12 @@ const PlayingSurface = (props) => {
                         className={`card surfaceCard ${roomUser.message &&
                           "showReady"}`}
                         cardNumber={
-                          roomUser.sessionId === sessionId && roomUser.message
+                          roomUser.ID === ID && roomUser.message
                         }
                         cardName={
-                          roomUser.sessionId === sessionId
+                          roomUser.ID === ID
                             ? "Me"
-                            : roomUser.userName
+                            : roomUser.username
                         }
                       />
                     </div>
@@ -97,7 +97,7 @@ const PlayingSurface = (props) => {
                         height={`${cardDimensions.height}vw`}
                         className={`card surfaceCard`}
                         cardNumber={roomUser.message}
-                        cardName={roomUser.userName}
+                        cardName={roomUser.username}
                         showVotes={roomUser.showVotes && "I clicked the button"}
                       />
                     </div>
