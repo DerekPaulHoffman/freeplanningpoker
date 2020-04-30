@@ -55,7 +55,7 @@ functions:
 
 resources:
     Resources:
-        WeboscketUserTable:
+        WebsocketUserTable:
             Type: AWS::DynamoDB::Table
             Properties:
                 TableName: ${self:custom.tableName}

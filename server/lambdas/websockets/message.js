@@ -3,6 +3,7 @@ const Dynamo = require('../common/Dynamo');
 const WebSocket = require('../common/websocketMessage');
 
 const tableName = process.env.tableName;
+const myArray= [];
 
 exports.handler = async event => {
     console.log('event', event);

@@ -14,33 +14,40 @@ const Dynamo = {
         const data = await documentClient.get(params).promise();
 
         if (!data || !data.Item) {
+            console.log("error in get dynamo")
+            console.log(data)
             throw Error(
                 `There was an error fetching the data for ID of ${ID} from ${TableName}`
             );
         }
-        console.log(data);
+        console.log(`success ${data}`);
 
         return data.Item;
     },
 
     async getRoom(roomId, TableName) {
-        const params = {
-            TableName,
-            Key: {
-                roomId,
-            },
-        };
+        try {
+            var params = {
+                TableName,
+                FilterExpression: 'roomId = :roomId',
+                ExpressionAttributeValues: { ':roomId': roomId }
+            };
 
-        const data = await documentClient.get(params).promise();
+            const data = await documentClient.scan(params).promise();
 
-        if (!data || !data.Item) {
-            throw Error(
-                `There was an error getting the room ${roomId} from ${TableName}`
-            );
+            if (!data || !data.Items) {
+                console.log(`There was an error getting the room ${roomId} from ${TableName}`);
+                throw Error(
+                    `There was an error getting the room ${roomId} from ${TableName}`
+                );
+            }
+            console.log(data.Items);
+
+            return data.Items;
+        } catch (error) {
+            return Responses._400({ message: 'Could Not Join Room' });
         }
-        console.log(data);
-
-        return data.Item;
+        
     },
 
     async write(data, TableName) {

@@ -11,9 +11,15 @@ exports.handler = async event => {
 
     const body = JSON.parse(event.body);
 
+    console.log("starting join room")
+
     try {
-        const record = await Dynamo.get(connectionID, tableName);
-        const {domainName, stage } = record;
+
+      console.log('inside try')
+      const record = await Dynamo.get(connectionID, tableName);
+      console.log('after record')
+      console.log(record)
+      const { domainName, stage } = record;
 
         const newRoomId = body.roomId;
 
@@ -23,17 +29,18 @@ exports.handler = async event => {
         };
 
         await Dynamo.write(data, tableName);
-
+        console.log(`Joined Room Id: ${newRoomId}`);
         await WebSocket.send({
           domainName,
           stage,
           connectionID,
-          message: `${connectionID} joined room ${newRoomId}`,
+          message: `This is a reply to your message, connectionID: ${connectionID}`,
         });
-        console.log(`sent Room Id: ${newRoomId}`);
 
+        console.log('200')
         return Responses._200({ message: 'Joined Room' });
     } catch (error) {
+        console.log('400')
         return Responses._400({ message: 'Could Not Join Room' });
     }
 };

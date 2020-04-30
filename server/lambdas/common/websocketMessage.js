@@ -22,8 +22,10 @@ const send = ({ domainName, stage, connectionID, message }) => {
 const sendAll = ({ domainName, stage, message }) => {
     const ws = create(domainName, stage);
 
+    
     const postParams = {
-        Data: message,
+      Data: message,
+      ConnectionId: connectionID,
     };
 
     return ws.postToConnection(postParams).promise();
