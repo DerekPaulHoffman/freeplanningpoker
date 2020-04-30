@@ -8,31 +8,32 @@ import './CardHolder.scss';
 import DraggableCard from "./DraggableCard/DraggableCard";
 
 
-const CardHolder = () => {
+const CardHolder = ({ websocket, sendUpNewCards }) => {
   const fibonacci = [1, 2, 3, 5, 8, 13, 20];
   const [chosenIndex, setchosenIndex] = useState(-1);
   const [currentDraggedState, setcurrentDraggedState] = useState(false);
   const { height, width } = useWindowDimensions();
-  const cardDimensions = {width:2.25 * 10, height:3.5 * 10}
-  
+  const cardDimensions = { width: 2.25 * 10, height: 3.5 * 10 };
 
   const resetStates = (chosenIndex) => {
     setchosenIndex(chosenIndex);
-  }
-  const draggedState = currentDraggedState => {
+  };
+  const draggedState = (currentDraggedState) => {
     setcurrentDraggedState(currentDraggedState);
   };
 
   return (
     <div className="cardHolder" id="cardHolder">
       <div
-        className={`${currentDraggedState ? "show" : "hide"} overlayPhantomCard`}
+        className={`${
+          currentDraggedState ? "show" : "hide"
+        } overlayPhantomCard`}
       >
         <div
           className="selectionCardBox"
           style={{
             width: `${cardDimensions.width}vw`,
-            height: `${cardDimensions.height}vw`
+            height: `${cardDimensions.height}vw`,
           }}
         ></div>
       </div>
@@ -43,6 +44,8 @@ const CardHolder = () => {
               cardNumber={cardNumber}
               resetStates={resetStates}
               draggedState={draggedState}
+              websocket={websocket}
+              sendUpNewCards={sendUpNewCards}
               chosenState={index === chosenIndex}
               myIndex={index}
               xPos={((width - 50) / fibonacci.length) * index + 20}
@@ -59,6 +62,6 @@ const CardHolder = () => {
       })}
     </div>
   );
-}
+};
 
 export default CardHolder;

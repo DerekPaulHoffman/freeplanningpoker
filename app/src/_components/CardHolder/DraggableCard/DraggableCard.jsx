@@ -10,34 +10,46 @@ import Card from "../../Card/Card";
 
 import "./DraggableCard.scss";
 
-const DraggableCard = props => {
+const DraggableCard = ({
+  xPos,
+  yPos,
+  myIndex,
+  cardNumber,
+  draggedState,
+  resetStates,
+  roation,
+  cardDimensions,
+  chosenState,
+  websocket,
+  sendUpNewCards,
+}) => {
   const [originalPosition, setOriginalPosition] = useState({
     x: 0,
-    y: 1000
+    y: 1000,
   });
   const [dragging, setDragging] = useState(false);
   const { height } = useWindowDimensions();
 
   useEffect(() => {
-    setOriginalPosition({ x: props.xPos, y: props.yPos });
-  }, [props.xPos, props.yPos]);
+    setOriginalPosition({ x: xPos, y: yPos });
+  }, [xPos, yPos]);
 
   const handleDrag = (e, ui) => {
     setDragging(true);
-    props.draggedState(true);
+    draggedState(true);
   };
 
   const onStart = () => {};
 
-  const onStop = e => {
+  const onStop = async (e) => {
     setDragging(false);
-    props.draggedState(false);
-    setOriginalPosition({ x: props.xPos, y: props.yPos });
+    draggedState(false);
+    setOriginalPosition({ x: xPos, y: yPos });
     console.log(e);
     if (e.type === "touchend") {
       if (e.changedTouches[0].clientY < height * 0.7) {
-        props.resetStates(props.myIndex);
-        // Sockets.sendMessage(props.cardNumber);
+        resetStates(myIndex);
+        sendUpNewCards(await Sockets.sendCardNumber(websocket, cardNumber));
       }
     }
   };
@@ -46,7 +58,7 @@ const DraggableCard = props => {
     <>
       <Draggable
         handle=".handle"
-        defaultPosition={{ x: props.xPos, y: props.yPos }}
+        defaultPosition={{ x: xPos, y: yPos }}
         position={originalPosition}
         scale={1}
         onStart={onStart}
@@ -55,11 +67,11 @@ const DraggableCard = props => {
       >
         <div className="handle">
           <Card
-            transform={`rotate(${dragging ? 0 : props.roation}deg)`}
-            width={`${props.cardDimensions.width}vw`}
-            height={`${props.cardDimensions.height}vw`}
-            className={`card ${props.chosenState ? "chosen" : "notChosen"}`}
-            cardNumber={props.cardNumber}
+            transform={`rotate(${dragging ? 0 : roation}deg)`}
+            width={`${cardDimensions.width}vw`}
+            height={`${cardDimensions.height}vw`}
+            className={`card ${chosenState ? "chosen" : "notChosen"}`}
+            cardNumber={cardNumber}
           />
         </div>
       </Draggable>

@@ -15,6 +15,7 @@ exports.handler = async event => {
       messages: [],
       roomId: "No Room",
       username: "Anonymous",
+      cardNumber:'?',
       domainName,
       stage,
     };

@@ -11,25 +11,29 @@ exports.handler = async event => {
 
     const body = JSON.parse(event.body);
     try {
-      const record = await Dynamo.get(connectionID, tableName);
-      const { domainName, stage } = record;
+        const record = await Dynamo.get(connectionID, tableName);
 
-        const newRoomId = body.roomId;
+        const newCardNumber = body.cardNumber;
 
         const data = {
-          ...record,
-          roomId: newRoomId,
+            ...record,
+            cardNumber: newCardNumber,
         };
 
         await Dynamo.write(data, tableName);
-        await WebSocket.send({
-          domainName,
-          stage,
-          connectionID,
-          message: connectionID,
-        });
 
-        console.log('200')
+        const records = await Dynamo.getRoom(record.roomId, tableName);
+        await Promise.all(records.map(async (record) => {
+            const { domainName, stage, ID: connectionID } = record;
+            await WebSocket.send({
+                domainName,
+                stage,
+                connectionID,
+                message: JSON.stringify(records),
+            });
+        }));
+
+
         return Responses._200({ message: 'Joined Room' });
     } catch (error) {
         console.log('400')

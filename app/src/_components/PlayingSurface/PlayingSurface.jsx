@@ -77,10 +77,10 @@ const PlayingSurface = (props) => {
                         transform={0}
                         width={`${cardDimensions.width}vw`}
                         height={`${cardDimensions.height}vw`}
-                        className={`card surfaceCard ${roomUser.message &&
+                        className={`card surfaceCard ${roomUser.cardNumber &&
                           "showReady"}`}
                         cardNumber={
-                          roomUser.ID === ID && roomUser.message
+                          roomUser.ID === ID && roomUser.cardNumber
                         }
                         cardName={
                           roomUser.ID === ID
@@ -96,7 +96,7 @@ const PlayingSurface = (props) => {
                         width={`${cardDimensions.width}vw`}
                         height={`${cardDimensions.height}vw`}
                         className={`card surfaceCard`}
-                        cardNumber={roomUser.message}
+                        cardNumber={roomUser.cardNumber}
                         cardName={roomUser.username}
                         showVotes={roomUser.showVotes && "I clicked the button"}
                       />

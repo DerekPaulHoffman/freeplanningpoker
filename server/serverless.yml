@@ -52,6 +52,11 @@ functions:
         events:
             - websocket:
                   route: getRoom
+    websocket-sendCardNumber:
+        handler: lambdas/websockets/sendCardNumber.handler
+        events:
+            - websocket:
+                  route: sendCardNumber
 
 resources:
     Resources:

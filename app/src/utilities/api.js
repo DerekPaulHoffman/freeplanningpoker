@@ -80,4 +80,18 @@ const getRoom = (websocket, roomId) => {
   });
 };
 
-export { startWebSocket, joinRoom, sendUsername, leaveRoom, getRoom };
+const sendCardNumber = (websocket, cardNumber) => {
+  return new Promise(function (resolve, reject) {
+    console.log(`send cardNumber: ${cardNumber}`)
+    websocket.send(`{"cardNumber": "${cardNumber}","action": "sendCardNumber"}`);
+    websocket.onmessage = function (evt) {
+      console.log(evt.data)
+      resolve(JSON.parse(evt.data));
+    };
+    websocket.onerror = function (err) {
+      reject(err);
+    };
+  });
+};
+
+export { startWebSocket, joinRoom, sendUsername, leaveRoom, getRoom, sendCardNumber };

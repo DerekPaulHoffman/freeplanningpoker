@@ -57,6 +57,9 @@ const App = () => {
   useEffect(() => {
     //Check if websocket is already instanitated
     if(websocket) {
+      websocket.onmessage = function (evt) {
+         setRoomUsers(JSON.parse(evt.data));
+      };
     // console.log("run websocket useEffect");
       let roomURL = window.location.hash.replace("#/", "");
       let userNameLocalHost = localStorage.getItem("username");
@@ -75,6 +78,11 @@ const App = () => {
     initWebSocket();
   }, []);
 
+  const handleChangeValue = (newData) => {
+    console.log("handleChangeValue");
+    setRoomUsers(newData);
+  };
+
 
   return (
     <div className="App">
@@ -85,7 +93,10 @@ const App = () => {
         changeUsername={changeUsername}
       />
 
-      <CardHolder />
+      <CardHolder
+        websocket={websocket}
+        sendUpNewCards={handleChangeValue}
+      />
       {showModal && (
         <Portal>
           <div id="overlay">
