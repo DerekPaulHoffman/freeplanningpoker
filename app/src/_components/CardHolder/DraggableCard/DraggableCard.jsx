@@ -49,7 +49,9 @@ const DraggableCard = ({
     if (e.type === "touchend") {
       if (e.changedTouches[0].clientY < height * 0.7) {
         resetStates(myIndex);
-        sendUpNewCards(await Sockets.sendCardNumber(websocket, cardNumber));
+        const sentCards = await Sockets.sendCardNumber(websocket, cardNumber);
+        console.log(sentCards);
+        sendUpNewCards(sentCards);
       }
     }
   };

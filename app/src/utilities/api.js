@@ -10,6 +10,7 @@ const startWebSocket = () => {
     };
     websocket.onerror = (evt) => {
       console.log("error", evt);
+      alert("Session timed out please rejoin or refresh")
       reject(evt);
     };
     
@@ -33,6 +34,7 @@ const joinRoom = (websocket, roomId) => {
       resolve(evt.data);
     };
     websocket.onerror = (err) => {
+      alert("Session timed out please rejoin or refresh")
       reject(err);
     };
   });
@@ -47,6 +49,7 @@ const leaveRoom = (websocket) => {
       resolve(evt.data);
     };
     websocket.onerror = (err) => {
+      alert("Session timed out please rejoin or refresh")
       reject(err);
     };
   });
@@ -61,6 +64,7 @@ const sendUsername = (websocket, username) => {
       resolve(evt.data);
     };
     websocket.onerror = function (err) {
+      alert("Session timed out please rejoin or refresh")
       reject(err);
     };
   });
@@ -75,6 +79,7 @@ const getRoom = (websocket, roomId) => {
       resolve(JSON.parse(evt.data));
     };
     websocket.onerror = function (err) {
+      alert("Session timed out please rejoin or refresh")
       reject(err);
     };
   });
@@ -89,6 +94,7 @@ const sendCardNumber = (websocket, cardNumber) => {
       resolve(JSON.parse(evt.data));
     };
     websocket.onerror = function (err) {
+      alert("Session timed out please rejoin or refresh")
       reject(err);
     };
   });

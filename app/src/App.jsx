@@ -78,6 +78,10 @@ const App = () => {
     initWebSocket();
   }, []);
 
+   useEffect(() => {
+     console.log("new room users")
+   }, [roomUsers]);
+
   const handleChangeValue = (newData) => {
     console.log("handleChangeValue");
     setRoomUsers(newData);
