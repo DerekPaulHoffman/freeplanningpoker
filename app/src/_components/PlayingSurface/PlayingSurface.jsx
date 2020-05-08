@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Card from "../Card/Card.jsx";
 
-// APIs
-import * as Sockets from '../../utilities/api.js';
+
 
 import "./PlayingSurface.scss";
 

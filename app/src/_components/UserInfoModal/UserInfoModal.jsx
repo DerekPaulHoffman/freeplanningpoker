@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-// APIs
-import * as Sockets from '../../utilities/api.js';
 
 import './UserInfoModal.scss';
 
 import useFormLogic from '../../hooks/useFormLogic';
 import useModalRequirements from '../../hooks/useModalRequirements';
 
-const UserInfoModal = ({
-  joinRoom,
-  roomId,
-  changeUsername
-}) => {
+const UserInfoModal = ({ joinRoom, roomId, changeUsername} ) => {
   const {
     showUserNameInput,
     setUserNameInput,

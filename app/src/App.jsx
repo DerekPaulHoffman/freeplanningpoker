@@ -9,84 +9,25 @@ import PlayingSurface from "./_components/PlayingSurface/PlayingSurface";
 
 // Hooks
 import useModalRequirements from './hooks/useModalRequirements';
+import useWebSocket from "./hooks/useWebSocket";
 
-// APIs
-import * as Sockets from './utilities/api.js';
 // Styles
 import './styles/App.scss';
 import './styles/Common.scss';
 
 const App = () => {
-  const [roomUsers, setRoomUsers] = useState([]);
-  const [websocket, setWebsocket] = useState();
-  const [roomId, setRoomId] = useState();
-  const [userName, setUserName] = useState();
-  const [ID, setID] = useState();
-  const { showModal, setShowModal } = useModalRequirements();
+  const {
+    websocket,
+    roomUsers,
+    roomId,
+    userName,
+    changeUsername,
+    leaveRoom,
+    joinRoom,
+    sendCardNumber,
+    showModal,
+  } = useWebSocket();
  
-  
-
-  const changeUsername = (username) => {
-    setUserName(username);
-  };
-
-
-  const joinRoom = async (roomId, userName) => {
-    await Sockets.sendUsername(websocket, userName);
-    setID(await Sockets.joinRoom(websocket, roomId));
-    setUserName(userName);
-    setRoomId(roomId);
-    setRoomUsers(await Sockets.getRoom(websocket, roomId));
-    // console.log(await Sockets.getRoom(websocket, roomId));
-    setShowModal(false);
-    
-};
-
-  const leaveRoom = async () => {
-    window.history.pushState("", "Free Planning Poker", `/`);
-    await Sockets.leaveRoom(websocket);
-    setShowModal(true);
-  };
-
-  const initWebSocket = async () => {
-    const newWebsocketResponse = await Sockets.startWebSocket();  
-    // console.log(newWebsocketResponse);
-    setWebsocket(newWebsocketResponse);
-  }
-
-  useEffect(() => {
-    //Check if websocket is already instanitated
-    if(websocket) {
-      websocket.onmessage = function (evt) {
-         setRoomUsers(JSON.parse(evt.data));
-      };
-    // console.log("run websocket useEffect");
-      let roomURL = window.location.hash.replace("#/", "");
-      let userNameLocalHost = localStorage.getItem("username");
-      if (roomURL.length === 4) {
-       // setRoomId(roomURL);
-        if (userNameLocalHost) {
-          setUserName(userNameLocalHost);
-          joinRoom(roomURL, userNameLocalHost);
-        }
-      }
-    }
-  }, [websocket]);
-
-  //Start the websocket
-  useEffect(() => {
-    initWebSocket();
-  }, []);
-
-   useEffect(() => {
-     console.log("new room users")
-   }, [roomUsers]);
-
-  const handleChangeValue = (newData) => {
-    console.log("handleChangeValue");
-    setRoomUsers(newData);
-  };
-
 
   return (
     <div className="App">
@@ -96,11 +37,7 @@ const App = () => {
         leaveRoom={leaveRoom}
         changeUsername={changeUsername}
       />
-
-      <CardHolder
-        websocket={websocket}
-        sendUpNewCards={handleChangeValue}
-      />
+      <CardHolder websocket={websocket} sendUpNewCards={sendCardNumber} />
       {showModal && (
         <Portal>
           <div id="overlay">
@@ -112,7 +49,7 @@ const App = () => {
           </div>
         </Portal>
       )}
-      <PlayingSurface roomUsers={roomUsers} ID={ID} />
+      <PlayingSurface roomUsers={roomUsers} />
     </div>
   );
 }

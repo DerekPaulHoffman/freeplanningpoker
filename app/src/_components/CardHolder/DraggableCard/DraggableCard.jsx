@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Draggable from 'react-draggable';
+
+//hooks
 import useWindowDimensions from "../../../hooks/getWindowDimensions";
-
-
-//Sockets
-import * as Sockets from '../../../utilities/api.js';
 
 import Card from "../../Card/Card";
 
@@ -20,7 +18,6 @@ const DraggableCard = ({
   roation,
   cardDimensions,
   chosenState,
-  websocket,
   sendUpNewCards,
 }) => {
   const [originalPosition, setOriginalPosition] = useState({
@@ -49,9 +46,7 @@ const DraggableCard = ({
     if (e.type === "touchend") {
       if (e.changedTouches[0].clientY < height * 0.7) {
         resetStates(myIndex);
-        const sentCards = await Sockets.sendCardNumber(websocket, cardNumber);
-        console.log(sentCards);
-        sendUpNewCards(sentCards);
+        sendUpNewCards(cardNumber);
       }
     }
   };
