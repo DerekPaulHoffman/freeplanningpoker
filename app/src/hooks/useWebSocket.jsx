@@ -10,7 +10,7 @@ const useWebsocket = () => {
 
   //Start the websocket
   useEffect(() => {
-    setWebsocket(new WebSocket("wss:/api.freeplanningpoker.com"));
+      startWebSocket();
   }, []);
 
   const changeUsername = (username) => {
@@ -35,7 +35,6 @@ const useWebsocket = () => {
   useEffect(() => {
     //Check if websocket is already instanitated
     if (websocketReady) {
-      startWebSocket();
       // console.log("run websocket useEffect");
       let roomURL = window.location.hash.replace("#/", "");
       let userNameLocalHost = localStorage.getItem("username");
@@ -55,23 +54,26 @@ const useWebsocket = () => {
 
 
   const startWebSocket = () => {
-      websocket.onopen = (evt) => {
+      const initalWebsocket = new WebSocket("wss:/api.freeplanningpoker.com");
+      initalWebsocket.onopen = (evt) => {
         console.log("onopen", evt);
         setWebsocketReady(true);
       };
-      websocket.onerror = (evt) => {
+      initalWebsocket.onerror = (evt) => {
         console.log("error", evt);
         alert("Session timed out please rejoin or refresh");
       };
 
-      websocket.onmessage = (evt) => {
+      initalWebsocket.onmessage = (evt) => {
         console.log("onmessage", evt);
         setRoomUsers(JSON.parse(evt.data));
       };
 
-      websocket.onclose = (evt) => {
+      initalWebsocket.onclose = (evt) => {
         console.log("onclose", evt);
       };
+      
+    setWebsocket(initalWebsocket);
   };
 
   const apiJoinRoom = (roomId) => {

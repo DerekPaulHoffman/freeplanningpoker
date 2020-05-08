@@ -8,7 +8,6 @@ import CardHolder from "./_components/CardHolder/CardHolder";
 import PlayingSurface from "./_components/PlayingSurface/PlayingSurface";
 
 // Hooks
-import useModalRequirements from './hooks/useModalRequirements';
 import useWebSocket from "./hooks/useWebSocket";
 
 // Styles
