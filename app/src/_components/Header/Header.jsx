@@ -18,15 +18,14 @@ const Header = ({ roomId, userName, leaveRoom }) => {
          text: "Join My Room!",
          url: window.location.href
        })
-       .then(() => alert("Successful share"))
-       .catch(error => alert("Error sharing", error));
+       .then(() => console.log("Successful share"))
+       .catch(error => alert("Error sharing sorry!"));
    }
  };
 
  const leaveTheRoom = () =>{
      leaveRoom();
      setShowNav(false);
-     console.log("leavehteroom")
  } 
     
   return (

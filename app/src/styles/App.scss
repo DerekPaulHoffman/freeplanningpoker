@@ -31,3 +31,19 @@ code {
   text-align: center;
   height: 100%;
 }
+
+.mainArea{
+  width:100%;
+  position: absolute;
+  right:0vw;
+  transition: right 0.2s;
+  &.showMessage{
+    right:80vw
+  }
+  .messageBoard{
+    position: absolute;
+    top: 0;
+    right: -80%;
+    width: 80vw;
+  }
+}

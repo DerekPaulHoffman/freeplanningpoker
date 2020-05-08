@@ -57,6 +57,16 @@ functions:
         events:
             - websocket:
                   route: sendCardNumber
+    websocket-showVotes:
+        handler: lambdas/websockets/showVotes.handler
+        events:
+            - websocket:
+                  route: showVotes
+    websocket-clearVotes:
+        handler: lambdas/websockets/clearVotes.handler
+        events:
+            - websocket:
+                  route: clearVotes
 
 resources:
     Resources:

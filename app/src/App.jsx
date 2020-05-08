@@ -1,5 +1,6 @@
 // eslint-disable-next-line react-hooks/exhaustive-deps
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Swipeable } from "react-swipeable";
 
 import Header from './_components/Header/Header';
 import Portal from './_components/Portal/Portal';
@@ -9,6 +10,7 @@ import PlayingSurface from "./_components/PlayingSurface/PlayingSurface";
 
 // Hooks
 import useWebSocket from "./hooks/useWebSocket";
+
 
 // Styles
 import './styles/App.scss';
@@ -25,7 +27,26 @@ const App = () => {
     joinRoom,
     sendCardNumber,
     showModal,
+    showVotes,
+    clearVotes,
+    ID,
   } = useWebSocket();
+
+  const [messageBoardVisible, moveMessageBoard] = useState(false);
+
+  
+  const config = {
+    onSwipedLeft: () => {
+      console.log("left")
+      moveMessageBoard(true);
+    },
+    onSwipedRight: () => {
+      console.log("right")
+      moveMessageBoard(false);
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  };
  
 
   return (
@@ -36,19 +57,32 @@ const App = () => {
         leaveRoom={leaveRoom}
         changeUsername={changeUsername}
       />
-      <CardHolder websocket={websocket} sendUpNewCards={sendCardNumber} />
-      {showModal && (
-        <Portal>
-          <div id="overlay">
-            <UserInfoModal
-              joinRoom={joinRoom}
-              roomId={roomId}
-              changeUsername={changeUsername}
-            />
+      <div className={`mainArea ${messageBoardVisible ? "showMessage" : ""}`}>
+        <CardHolder websocket={websocket} sendUpNewCards={sendCardNumber} />
+        {showModal && (
+          <Portal>
+            <div id="overlay">
+              <UserInfoModal
+                joinRoom={joinRoom}
+                roomId={roomId}
+                changeUsername={changeUsername}
+              />
+            </div>
+          </Portal>
+        )}
+        <Swipeable {...config}>
+          <PlayingSurface
+            roomUsers={roomUsers}
+            showVotesApi={showVotes}
+            clearVotes={clearVotes}
+            ID={ID}
+          />
+          <div className="messageBoard">
+            <p>First Message</p>
+            <input type="text" name="Write Here" />
           </div>
-        </Portal>
-      )}
-      <PlayingSurface roomUsers={roomUsers} />
+        </Swipeable>
+      </div>
     </div>
   );
 }
