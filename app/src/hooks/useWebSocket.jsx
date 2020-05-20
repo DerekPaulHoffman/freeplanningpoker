@@ -30,8 +30,9 @@ const useWebsocket = () => {
     }
   }, [websocketReady]);
 
-  const changeUsername = (username) => {
-    setUserName(username);
+  const changeUsername = async (username) => {
+    await setUserName(username);
+    await sendUsername(userName);
     if (roomId) {
       joinRoom(roomId, userName);
     }

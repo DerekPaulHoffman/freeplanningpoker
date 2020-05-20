@@ -4,7 +4,10 @@
 .container {
   margin-right: auto;
   margin-left: auto;
+    width: 100%;
 }
+
+
 
 .container-fluid {
   padding-right: 2rem;
@@ -32,7 +35,6 @@
 		margin: 0;
 	}
 }
-
 .column {
   box-sizing: border-box;
   display: -webkit-box;

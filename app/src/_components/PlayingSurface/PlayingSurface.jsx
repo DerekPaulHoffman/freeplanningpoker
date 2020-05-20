@@ -56,7 +56,7 @@ const PlayingSurface = ({ roomUsers, ID, showVotesApi, clearVotes }) => {
                     roomUser.ID === ID ? "0" : index + roomUsers.length
                   }`,
                 }}
-                className="col-xs-4"
+                className={`col-xs-${(roomUsers.length) > 6 ? '3' : '4'}`}
               >
                 <div className="container">
                   <div className="deck">
@@ -65,7 +65,7 @@ const PlayingSurface = ({ roomUsers, ID, showVotesApi, clearVotes }) => {
                         <Card
                           key={index + 1}
                           transform={0}
-                          width={`${cardDimensions.width}vw`}
+                          width={`100%`}
                           height={`${cardDimensions.height}vw`}
                           className={`card surfaceCard ${
                             roomUser.cardNumber && "showReady"
@@ -80,7 +80,7 @@ const PlayingSurface = ({ roomUsers, ID, showVotesApi, clearVotes }) => {
                         <Card
                           key={index + 1}
                           transform={0}
-                          width={`${cardDimensions.width}vw`}
+                          width={`100%`}
                           height={`${cardDimensions.height}vw`}
                           className={`card surfaceCard`}
                           cardNumber={roomUser.cardNumber}
