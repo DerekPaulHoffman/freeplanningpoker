@@ -51,46 +51,33 @@ const PlayingSurface = ({ roomUsers, ID, showVotesApi, clearVotes }) => {
               <li
                 key={`playingSurface${roomUser.username}${index}`}
                 style={{
-                  height: `50vw`,
                   order: `${
                     roomUser.ID === ID ? "0" : index + roomUsers.length
                   }`,
                 }}
-                className={`col-xs-${(roomUsers.length) > 6 ? '3' : '4'}`}
+                // className={`col-xs-${(roomUsers.length) > 6 ? '3' : '4'}`}
               >
-                <div className="container">
-                  <div className="deck">
-                    <div className={`fullCard ${showVotes && "flipped"}`}>
-                      <div className="front face">
-                        <Card
-                          key={index + 1}
-                          transform={0}
-                          width={`100%`}
-                          height={`${cardDimensions.height}vw`}
-                          className={`card surfaceCard ${
-                            roomUser.cardNumber && "showReady"
-                          }`}
-                          cardNumber={roomUser.ID === ID && roomUser.cardNumber}
-                          cardName={
-                            roomUser.ID === ID ? "Me" : roomUser.username
-                          }
-                        />
-                      </div>
-                      <div className="back face">
-                        <Card
-                          key={index + 1}
-                          transform={0}
-                          width={`100%`}
-                          height={`${cardDimensions.height}vw`}
-                          className={`card surfaceCard`}
-                          cardNumber={roomUser.cardNumber}
-                          cardName={roomUser.username}
-                          showVotes={
-                            roomUser.showVotes && "I clicked the button"
-                          }
-                        />
-                      </div>
-                    </div>
+                <div className={`fullCard ${showVotes && "flipped"}`}>
+                  <div className="front face">
+                    <Card
+                      key={index + 1}
+                      transform={0}
+                      className={`card surfaceCard ${
+                        roomUser.cardNumber && "showReady"
+                      }`}
+                      cardNumber={roomUser.ID === ID && roomUser.cardNumber}
+                      cardName={roomUser.ID === ID ? "Me" : roomUser.username}
+                    />
+                  </div>
+                  <div className="back face">
+                    <Card
+                      key={index + 1}
+                      transform={0}
+                      className={`card surfaceCard`}
+                      cardNumber={roomUser.cardNumber}
+                      cardName={roomUser.username}
+                      showVotes={roomUser.showVotes && "I clicked the button"}
+                    />
                   </div>
                 </div>
               </li>
